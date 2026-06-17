@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import styles from "./add-book-form.module.css";
 
 interface AddBookFormProps {
   onBookAdded: () => void;
@@ -41,30 +42,32 @@ export function AddBookForm({ onBookAdded }: AddBookFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={styles.form}>
       <h2>Add a Book</h2>
-      {error && <p role="alert" style={{ color: "red" }}>{error}</p>}
-      <div>
-        <label htmlFor="title">Title</label>
+      {error && <p role="alert" className={styles.alert}>{error}</p>}
+      <div className={styles.fieldGroup}>
+        <label htmlFor="title" className={styles.label}>Title</label>
         <input
           id="title"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          className={styles.input}
         />
       </div>
-      <div>
-        <label htmlFor="author">Author</label>
+      <div className={styles.fieldGroup}>
+        <label htmlFor="author" className={styles.label}>Author</label>
         <input
           id="author"
           type="text"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
           required
+          className={styles.input}
         />
       </div>
-      <button type="submit" disabled={submitting}>
+      <button type="submit" disabled={submitting} className={styles.submitButton}>
         {submitting ? "Adding..." : "Add Book"}
       </button>
     </form>

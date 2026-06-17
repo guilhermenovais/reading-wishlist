@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import styles from "./search-form.module.css";
 
 interface SearchFormProps {
   onSearch: (title: string) => void;
@@ -19,9 +20,9 @@ export function SearchForm({ onSearch, isLoading }: SearchFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
-        <label htmlFor="search-title" style={{ display: "none" }}>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.searchGroup}>
+        <label htmlFor="search-title" className="sr-only">
           Search title
         </label>
         <input
@@ -31,9 +32,9 @@ export function SearchForm({ onSearch, isLoading }: SearchFormProps) {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter a book title..."
           required
-          style={{ flex: 1, padding: "0.5rem" }}
+          className={styles.input}
         />
-        <button type="submit" disabled={isLoading}>
+        <button type="submit" disabled={isLoading} className={styles.searchButton}>
           {isLoading ? "Searching..." : "Search"}
         </button>
       </div>
