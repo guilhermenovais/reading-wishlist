@@ -54,6 +54,9 @@ describe("Book", () => {
       title: "Clean Code",
       author: "Robert C. Martin",
       status: BookStatus.WISHLIST,
+      isbn: null,
+      publicationYear: null,
+      readingStartDate: null,
       createdAt,
     });
 

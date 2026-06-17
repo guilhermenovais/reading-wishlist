@@ -1,5 +1,6 @@
 import { Book } from "@/modules/books/domain/book";
 import { BookRepository } from "@/modules/books/domain/book-repository";
+import { BookStatus } from "@/modules/books/domain/book-status";
 
 export class InMemoryBookRepository implements BookRepository {
   private books: Book[] = [];
@@ -13,10 +14,20 @@ export class InMemoryBookRepository implements BookRepository {
       status: book.status,
       isbn: book.isbn,
       publicationYear: book.publicationYear,
+      readingStartDate: book.readingStartDate,
       createdAt: new Date(),
     });
     this.books.push(saved);
     return saved;
+  }
+
+  async update(book: Book): Promise<Book> {
+    const index = this.books.findIndex((b) => b.id === book.id);
+    if (index === -1) {
+      throw new Error("Book not found");
+    }
+    this.books[index] = book;
+    return book;
   }
 
   async findAll(): Promise<Book[]> {
@@ -29,6 +40,10 @@ export class InMemoryBookRepository implements BookRepository {
 
   async findByIsbn(isbn: string): Promise<Book | null> {
     return this.books.find((book) => book.isbn === isbn) ?? null;
+  }
+
+  async findByStatus(status: BookStatus): Promise<Book[]> {
+    return this.books.filter((book) => book.status === status);
   }
 
   async deleteById(id: number): Promise<void> {

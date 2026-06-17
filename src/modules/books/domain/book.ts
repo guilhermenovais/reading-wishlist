@@ -19,6 +19,7 @@ interface ReconstituteBookProps {
   status: BookStatus;
   isbn: string | null;
   publicationYear: number | null;
+  readingStartDate: Date | null;
   createdAt: Date;
 }
 
@@ -29,6 +30,7 @@ export class Book {
   readonly status: BookStatus;
   readonly isbn: string | null;
   readonly publicationYear: number | null;
+  readonly readingStartDate: Date | null;
   readonly createdAt?: Date;
 
   private constructor(props: {
@@ -38,6 +40,7 @@ export class Book {
     status: BookStatus;
     isbn: string | null;
     publicationYear: number | null;
+    readingStartDate: Date | null;
     createdAt?: Date;
   }) {
     this.id = props.id;
@@ -46,6 +49,7 @@ export class Book {
     this.status = props.status;
     this.isbn = props.isbn;
     this.publicationYear = props.publicationYear;
+    this.readingStartDate = props.readingStartDate;
     this.createdAt = props.createdAt;
   }
 
@@ -67,6 +71,7 @@ export class Book {
       status: BookStatus.WISHLIST,
       isbn: null,
       publicationYear: null,
+      readingStartDate: null,
     });
   }
 
@@ -92,6 +97,7 @@ export class Book {
       status: BookStatus.WISHLIST,
       isbn: props.isbn ?? null,
       publicationYear: props.publicationYear ?? null,
+      readingStartDate: null,
     });
   }
 
@@ -103,7 +109,24 @@ export class Book {
       status: props.status,
       isbn: props.isbn,
       publicationYear: props.publicationYear,
+      readingStartDate: props.readingStartDate,
       createdAt: props.createdAt,
+    });
+  }
+
+  startReading(): Book {
+    if (this.status !== BookStatus.WISHLIST) {
+      throw new Error("Only wishlist books can be started");
+    }
+    return Book.reconstitute({
+      id: this.id!,
+      title: this.title,
+      author: this.author,
+      status: BookStatus.READING,
+      isbn: this.isbn,
+      publicationYear: this.publicationYear,
+      readingStartDate: new Date(),
+      createdAt: this.createdAt!,
     });
   }
 }

@@ -6,6 +6,28 @@ import { BookStatus } from "../domain/book-status";
 export class PrismaBookRepository implements BookRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
+  private toBook(record: {
+    id: number;
+    title: string;
+    author: string;
+    status: string;
+    isbn: string | null;
+    publicationYear: number | null;
+    readingStartDate: Date | null;
+    createdAt: Date;
+  }): Book {
+    return Book.reconstitute({
+      id: record.id,
+      title: record.title,
+      author: record.author,
+      status: record.status as BookStatus,
+      isbn: record.isbn,
+      publicationYear: record.publicationYear,
+      readingStartDate: record.readingStartDate,
+      createdAt: record.createdAt,
+    });
+  }
+
   async save(book: Book): Promise<Book> {
     const record = await this.prisma.book.create({
       data: {
@@ -17,15 +39,23 @@ export class PrismaBookRepository implements BookRepository {
       },
     });
 
-    return Book.reconstitute({
-      id: record.id,
-      title: record.title,
-      author: record.author,
-      status: record.status as BookStatus,
-      isbn: record.isbn,
-      publicationYear: record.publicationYear,
-      createdAt: record.createdAt,
+    return this.toBook(record);
+  }
+
+  async update(book: Book): Promise<Book> {
+    const record = await this.prisma.book.update({
+      where: { id: book.id! },
+      data: {
+        title: book.title,
+        author: book.author,
+        status: book.status,
+        isbn: book.isbn,
+        publicationYear: book.publicationYear,
+        readingStartDate: book.readingStartDate,
+      },
     });
+
+    return this.toBook(record);
   }
 
   async findAll(): Promise<Book[]> {
@@ -33,17 +63,7 @@ export class PrismaBookRepository implements BookRepository {
       orderBy: { id: "asc" },
     });
 
-    return records.map((record) =>
-      Book.reconstitute({
-        id: record.id,
-        title: record.title,
-        author: record.author,
-        status: record.status as BookStatus,
-        isbn: record.isbn,
-        publicationYear: record.publicationYear,
-        createdAt: record.createdAt,
-      })
-    );
+    return records.map((record) => this.toBook(record));
   }
 
   async findById(id: number): Promise<Book | null> {
@@ -55,15 +75,7 @@ export class PrismaBookRepository implements BookRepository {
       return null;
     }
 
-    return Book.reconstitute({
-      id: record.id,
-      title: record.title,
-      author: record.author,
-      status: record.status as BookStatus,
-      isbn: record.isbn,
-      publicationYear: record.publicationYear,
-      createdAt: record.createdAt,
-    });
+    return this.toBook(record);
   }
 
   async findByIsbn(isbn: string): Promise<Book | null> {
@@ -75,15 +87,16 @@ export class PrismaBookRepository implements BookRepository {
       return null;
     }
 
-    return Book.reconstitute({
-      id: record.id,
-      title: record.title,
-      author: record.author,
-      status: record.status as BookStatus,
-      isbn: record.isbn,
-      publicationYear: record.publicationYear,
-      createdAt: record.createdAt,
+    return this.toBook(record);
+  }
+
+  async findByStatus(status: BookStatus): Promise<Book[]> {
+    const records = await this.prisma.book.findMany({
+      where: { status },
+      orderBy: { id: "asc" },
     });
+
+    return records.map((record) => this.toBook(record));
   }
 
   async deleteById(id: number): Promise<void> {
