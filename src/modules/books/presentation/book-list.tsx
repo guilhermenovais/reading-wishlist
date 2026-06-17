@@ -12,6 +12,7 @@ interface BookSummary {
   status: string;
   isbn: string | null;
   publicationYear: number | null;
+  readingStartDate: string | null;
 }
 
 interface BookListProps {
@@ -75,6 +76,11 @@ export function BookList({ refreshKey, onBookRemoved }: BookListProps) {
                   {book.publicationYear && ` (${book.publicationYear})`}
                   {book.isbn && <> — ISBN: {book.isbn}</>}
                 </div>
+                {book.readingStartDate && (
+                  <div className={styles.bookMeta}>
+                    Reading since {new Date(book.readingStartDate).toLocaleDateString()}
+                  </div>
+                )}
                 <span className={styles.badge}>{book.status}</span>
               </div>
               <button

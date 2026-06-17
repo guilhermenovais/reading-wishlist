@@ -7,9 +7,14 @@ function getBookService() {
   return new BookService(new PrismaBookRepository(prisma));
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const service = getBookService();
-  const books = await service.listBooks();
+  const status = request.nextUrl.searchParams.get("status");
+
+  const books =
+    status === "READING"
+      ? await service.listReadingBooks()
+      : await service.listBooks();
 
   return NextResponse.json({
     books: books.map((book) => ({
@@ -19,6 +24,7 @@ export async function GET() {
       status: book.status,
       isbn: book.isbn,
       publicationYear: book.publicationYear,
+      readingStartDate: book.readingStartDate,
       createdAt: book.createdAt,
     })),
   });
@@ -56,6 +62,7 @@ export async function POST(request: NextRequest) {
         status: book.status,
         isbn: book.isbn,
         publicationYear: book.publicationYear,
+        readingStartDate: book.readingStartDate,
         createdAt: book.createdAt,
       },
       { status: 201 }

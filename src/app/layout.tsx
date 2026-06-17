@@ -24,6 +24,9 @@ export default function RootLayout({
             <Link href="/" className={styles.navLink}>
               Wishlist
             </Link>
+            <Link href="/reading" className={styles.navLink}>
+              Reading
+            </Link>
             <Link href="/search" className={styles.navLink}>
               Search
             </Link>
