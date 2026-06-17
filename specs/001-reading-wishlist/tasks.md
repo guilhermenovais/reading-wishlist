@@ -19,11 +19,11 @@
 
 **Purpose**: Project initialization, tooling, and configuration
 
-- [ ] T001 Initialize Next.js 14+ project with TypeScript and install dependencies (next, react, react-dom, prisma, @prisma/client)
-- [ ] T002 [P] Configure TypeScript strict mode (no `any`, strict null checks) in tsconfig.json
-- [ ] T003 [P] Configure Jest with ts-jest and @testing-library/react in jest.config.ts
-- [ ] T004 [P] Configure Playwright for E2E tests in playwright.config.ts
-- [ ] T005 [P] Create .env.example with DATABASE_URL template and ensure .env is in .gitignore
+- [x] T001 Initialize Next.js 14+ project with TypeScript and install dependencies (next, react, react-dom, prisma, @prisma/client)
+- [x] T002 [P] Configure TypeScript strict mode (no `any`, strict null checks) in tsconfig.json
+- [x] T003 [P] Configure Jest with ts-jest and @testing-library/react in jest.config.ts
+- [x] T004 [P] Configure Playwright for E2E tests in playwright.config.ts
+- [x] T005 [P] Create .env.example with DATABASE_URL template and ensure .env is in .gitignore
 
 ---
 
@@ -33,17 +33,17 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 Create Prisma schema with Book model and BookStatus enum in prisma/schema.prisma
-- [ ] T007 Run initial Prisma migration for Book table
-- [ ] T008 [P] Create Prisma client singleton in src/lib/prisma.ts
-- [ ] T009 [P] Create BookStatus enum in src/modules/books/domain/book-status.ts
-- [ ] T010 [P] Define BookRepository interface (save, findAll, findById, deleteById) in src/modules/books/domain/book-repository.ts
-- [ ] T011 Write failing unit tests for Book entity (valid creation, missing title, missing author, whitespace-only rejection, title/author trimming, default WISHLIST status) in tests/unit/modules/books/domain/book.test.ts
-- [ ] T012 Implement Book domain entity with validation in src/modules/books/domain/book.ts (make T011 tests pass)
-- [ ] T013 [P] Create in-memory BookRepository for unit testing in tests/helpers/in-memory-book-repository.ts
-- [ ] T014 Write failing integration tests for PrismaBookRepository (save, findAll, findById, deleteById) in tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts
-- [ ] T015 Implement PrismaBookRepository in src/modules/books/infrastructure/prisma-book-repository.ts (make T014 tests pass)
-- [ ] T016 Create Next.js root layout in src/app/layout.tsx
+- [x] T006 Create Prisma schema with Book model and BookStatus enum in prisma/schema.prisma
+- [x] T007 Run initial Prisma migration for Book table
+- [x] T008 [P] Create Prisma client singleton in src/lib/prisma.ts
+- [x] T009 [P] Create BookStatus enum in src/modules/books/domain/book-status.ts
+- [x] T010 [P] Define BookRepository interface (save, findAll, findById, deleteById) in src/modules/books/domain/book-repository.ts
+- [x] T011 Write failing unit tests for Book entity (valid creation, missing title, missing author, whitespace-only rejection, title/author trimming, default WISHLIST status) in tests/unit/modules/books/domain/book.test.ts
+- [x] T012 Implement Book domain entity with validation in src/modules/books/domain/book.ts (make T011 tests pass)
+- [x] T013 [P] Create in-memory BookRepository for unit testing in tests/helpers/in-memory-book-repository.ts
+- [x] T014 Write failing integration tests for PrismaBookRepository (save, findAll, findById, deleteById) in tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts
+- [x] T015 Implement PrismaBookRepository in src/modules/books/infrastructure/prisma-book-repository.ts (make T014 tests pass)
+- [x] T016 Create Next.js root layout in src/app/layout.tsx
 
 **Checkpoint**: Foundation ready — domain entity validated, repository tested against real PostgreSQL, user story implementation can begin
 
@@ -59,14 +59,14 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T017 [US1] Write failing unit tests for BookService.addBook (valid creation, reject empty title, reject empty author, reject whitespace-only inputs) in tests/unit/modules/books/application/book-service.test.ts
+- [x] T017 [US1] Write failing unit tests for BookService.addBook (valid creation, reject empty title, reject empty author, reject whitespace-only inputs) in tests/unit/modules/books/application/book-service.test.ts
 
 ### Implementation for User Story 1
 
-- [ ] T018 [US1] Implement BookService.addBook use case in src/modules/books/application/book-service.ts (make T017 tests pass)
-- [ ] T019 [US1] Implement POST /api/books route handler with validation and error responses in src/app/api/books/route.ts
-- [ ] T020 [US1] Create AddBookForm component with title/author inputs and validation feedback in src/modules/books/presentation/add-book-form.tsx
-- [ ] T021 [US1] Create wishlist page with AddBookForm in src/app/page.tsx
+- [x] T018 [US1] Implement BookService.addBook use case in src/modules/books/application/book-service.ts (make T017 tests pass)
+- [x] T019 [US1] Implement POST /api/books route handler with validation and error responses in src/app/api/books/route.ts
+- [x] T020 [US1] Create AddBookForm component with title/author inputs and validation feedback in src/modules/books/presentation/add-book-form.tsx
+- [x] T021 [US1] Create wishlist page with AddBookForm in src/app/page.tsx
 
 **Checkpoint**: User Story 1 fully functional — users can add books via the web UI, invalid inputs are rejected
 
@@ -82,14 +82,14 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T022 [US2] Add failing unit tests for BookService.listBooks (returns all books, returns empty array when no books) to tests/unit/modules/books/application/book-service.test.ts
+- [x] T022 [US2] Add failing unit tests for BookService.listBooks (returns all books, returns empty array when no books) to tests/unit/modules/books/application/book-service.test.ts
 
 ### Implementation for User Story 2
 
-- [ ] T023 [US2] Implement BookService.listBooks use case in src/modules/books/application/book-service.ts (make T022 tests pass)
-- [ ] T024 [US2] Add GET handler to /api/books route returning `{ books: [...] }` in src/app/api/books/route.ts
-- [ ] T025 [US2] Create BookList component with empty state message in src/modules/books/presentation/book-list.tsx
-- [ ] T026 [US2] Integrate BookList into wishlist page in src/app/page.tsx
+- [x] T023 [US2] Implement BookService.listBooks use case in src/modules/books/application/book-service.ts (make T022 tests pass)
+- [x] T024 [US2] Add GET handler to /api/books route returning `{ books: [...] }` in src/app/api/books/route.ts
+- [x] T025 [US2] Create BookList component with empty state message in src/modules/books/presentation/book-list.tsx
+- [x] T026 [US2] Integrate BookList into wishlist page in src/app/page.tsx
 
 **Checkpoint**: User Stories 1 AND 2 functional — users can add books and see them in a list (minimum viable experience)
 
@@ -105,14 +105,14 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T027 [US3] Add failing unit tests for BookService.getBook (returns book by ID, throws not-found for non-existent ID) to tests/unit/modules/books/application/book-service.test.ts
+- [x] T027 [US3] Add failing unit tests for BookService.getBook (returns book by ID, throws not-found for non-existent ID) to tests/unit/modules/books/application/book-service.test.ts
 
 ### Implementation for User Story 3
 
-- [ ] T028 [US3] Implement BookService.getBook use case in src/modules/books/application/book-service.ts (make T027 tests pass)
-- [ ] T029 [US3] Implement GET /api/books/[id] route handler with 404 handling in src/app/api/books/[id]/route.ts
-- [ ] T030 [US3] Create BookDetail component displaying all book fields in src/modules/books/presentation/book-detail.tsx
-- [ ] T031 [US3] Create book detail page in src/app/books/[id]/page.tsx
+- [x] T028 [US3] Implement BookService.getBook use case in src/modules/books/application/book-service.ts (make T027 tests pass)
+- [x] T029 [US3] Implement GET /api/books/[id] route handler with 404 handling in src/app/api/books/[id]/route.ts
+- [x] T030 [US3] Create BookDetail component displaying all book fields in src/modules/books/presentation/book-detail.tsx
+- [x] T031 [US3] Create book detail page in src/app/books/[id]/page.tsx
 
 **Checkpoint**: User Story 3 functional — users can click a book to view its full details
 
@@ -128,14 +128,14 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T032 [US4] Add failing unit tests for BookService.removeBook (removes existing book, throws not-found for non-existent ID) to tests/unit/modules/books/application/book-service.test.ts
+- [x] T032 [US4] Add failing unit tests for BookService.removeBook (removes existing book, throws not-found for non-existent ID) to tests/unit/modules/books/application/book-service.test.ts
 
 ### Implementation for User Story 4
 
-- [ ] T033 [US4] Implement BookService.removeBook use case in src/modules/books/application/book-service.ts (make T032 tests pass)
-- [ ] T034 [US4] Add DELETE handler to /api/books/[id] route with 404 handling in src/app/api/books/[id]/route.ts
-- [ ] T035 [US4] Create RemoveBookDialog confirmation component (confirm/cancel actions) in src/modules/books/presentation/remove-book-dialog.tsx
-- [ ] T036 [US4] Integrate RemoveBookDialog into BookList and BookDetail components
+- [x] T033 [US4] Implement BookService.removeBook use case in src/modules/books/application/book-service.ts (make T032 tests pass)
+- [x] T034 [US4] Add DELETE handler to /api/books/[id] route with 404 handling in src/app/api/books/[id]/route.ts
+- [x] T035 [US4] Create RemoveBookDialog confirmation component (confirm/cancel actions) in src/modules/books/presentation/remove-book-dialog.tsx
+- [x] T036 [US4] Integrate RemoveBookDialog into BookList and BookDetail components
 
 **Checkpoint**: All user stories functional — full CRUD experience with confirmation on delete
 
@@ -145,9 +145,9 @@
 
 **Purpose**: E2E validation, cleanup, and final verification
 
-- [ ] T037 [P] Write E2E tests for complete user flows (add book, list books, view details, remove with confirm/cancel) in tests/e2e/books-wishlist.spec.ts
-- [ ] T038 Code cleanup and TypeScript strict mode compliance check across all source files
-- [ ] T039 Run quickstart.md validation to verify setup and run instructions are accurate
+- [x] T037 [P] Write E2E tests for complete user flows (add book, list books, view details, remove with confirm/cancel) in tests/e2e/books-wishlist.spec.ts
+- [x] T038 Code cleanup and TypeScript strict mode compliance check across all source files
+- [x] T039 Run quickstart.md validation to verify setup and run instructions are accurate
 
 ---
 
