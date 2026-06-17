@@ -63,14 +63,16 @@ As a user, I want to remove a book from my wishlist, so that I can keep my list 
 
 **Acceptance Scenarios**:
 
-1. **Given** a book exists in the wishlist, **When** the user removes it by identifier, **Then** the book is permanently deleted from the wishlist
-2. **Given** no book exists with the provided identifier, **When** the user attempts to remove it, **Then** the system informs the user that the book was not found
+1. **Given** a book exists in the wishlist, **When** the user initiates removal, **Then** the system displays a confirmation dialog before deleting
+2. **Given** the user confirms the removal, **When** the deletion is executed, **Then** the book is permanently deleted from the wishlist
+3. **Given** the user cancels the removal, **When** the confirmation dialog is dismissed, **Then** the book remains in the wishlist unchanged
+4. **Given** no book exists with the provided identifier, **When** the user attempts to remove it, **Then** the system informs the user that the book was not found
 
 ---
 
 ### Edge Cases
 
-- What happens when the user provides an empty string as a title or author? The system should treat empty strings the same as missing values and reject the request.
+- What happens when the user provides an empty string or whitespace-only string as a title or author? The system should treat empty and whitespace-only strings the same as missing values and reject the request.
 - What happens when the user tries to view or remove a book with an invalid or malformed identifier? The system should respond with a "not found" message.
 - What happens when the wishlist is empty and the user tries to list books? The system should gracefully indicate an empty wishlist.
 
@@ -79,19 +81,20 @@ As a user, I want to remove a book from my wishlist, so that I can keep my list 
 ### Functional Requirements
 
 - **FR-001**: System MUST allow users to create a book by providing a title and an author
-- **FR-002**: System MUST reject book creation when the title is not provided or is empty
-- **FR-003**: System MUST reject book creation when the author is not provided or is empty
+- **FR-002**: System MUST reject book creation when the title is not provided, empty, or whitespace-only
+- **FR-003**: System MUST reject book creation when the author is not provided, empty, or whitespace-only
 - **FR-004**: System MUST automatically assign the status "WISHLIST" to every newly created book
 - **FR-005**: System MUST assign a unique identifier to each book upon creation
 - **FR-006**: System MUST allow users to view a list of all registered books
 - **FR-007**: System MUST allow users to view all information associated with a specific book by its identifier
 - **FR-008**: System MUST return a "not found" indication when a user requests details for a non-existent book
-- **FR-009**: System MUST allow users to remove a book from the wishlist by its identifier
+- **FR-009**: System MUST display a confirmation dialog before removing a book from the wishlist
+- **FR-009a**: System MUST allow users to cancel the removal and retain the book
 - **FR-010**: System MUST return a "not found" indication when a user attempts to remove a non-existent book
 
 ### Key Entities
 
-- **Book**: Represents a book on the user's reading wishlist. Attributes: unique identifier, title, author, status (always "WISHLIST" upon creation).
+- **Book**: Represents a book on the user's reading wishlist. Attributes: unique identifier (auto-incrementing integer), title, author, status (always "WISHLIST" upon creation).
 
 ## Success Criteria *(mandatory)*
 
@@ -104,11 +107,21 @@ As a user, I want to remove a book from my wishlist, so that I can keep my list 
 - **SC-005**: 100% of book creation attempts without a title or author are rejected with a clear message
 - **SC-006**: All five specified test cases pass: create a valid book, reject without title, reject without author, remove an existing book, retrieve a non-existent book
 
+## Clarifications
+
+### Session 2026-06-17
+
+- Q: What type of user interface should this application provide? → A: Web application (browser UI + backend)
+- Q: What programming language and framework should be used? → A: Next.js + TypeScript + PostgreSQL
+- Q: What format should book identifiers use? → A: Auto-incrementing integer
+- Q: Should the remove action require user confirmation before deleting? → A: Yes, show a confirmation dialog
+- Q: What should happen when title or author contains only whitespace? → A: Treat as invalid (same as empty/missing)
+
 ## Assumptions
 
 - This is a single-user application; there is no multi-user or authentication requirement
 - The wishlist is the only status for books in this MVP; no status transitions are needed
-- Persistence mechanism is not specified; the application should store data in a way that survives application restarts
-- The user interface type (CLI, web, API) is not prescribed; the deliverable is a functional application regardless of interface
+- Data is persisted in PostgreSQL
+- The user interface is a web application built with Next.js (TypeScript) — browser-based frontend with Next.js API routes as the backend
 - No search, filtering, or sorting capabilities are required for this MVP
 - No duplicate detection is required; users may add books with the same title and author multiple times
