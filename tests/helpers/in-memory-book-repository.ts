@@ -11,6 +11,8 @@ export class InMemoryBookRepository implements BookRepository {
       title: book.title,
       author: book.author,
       status: book.status,
+      isbn: book.isbn,
+      publicationYear: book.publicationYear,
       createdAt: new Date(),
     });
     this.books.push(saved);
@@ -23,6 +25,10 @@ export class InMemoryBookRepository implements BookRepository {
 
   async findById(id: number): Promise<Book | null> {
     return this.books.find((book) => book.id === id) ?? null;
+  }
+
+  async findByIsbn(isbn: string): Promise<Book | null> {
+    return this.books.find((book) => book.isbn === isbn) ?? null;
   }
 
   async deleteById(id: number): Promise<void> {

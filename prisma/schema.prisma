@@ -12,9 +12,11 @@ enum BookStatus {
 }
 
 model Book {
-  id        Int        @id @default(autoincrement())
-  title     String
-  author    String
-  status    BookStatus @default(WISHLIST)
-  createdAt DateTime   @default(now())
+  id              Int        @id @default(autoincrement())
+  title           String
+  author          String
+  status          BookStatus @default(WISHLIST)
+  isbn            String?
+  publicationYear Int?
+  createdAt       DateTime   @default(now())
 }

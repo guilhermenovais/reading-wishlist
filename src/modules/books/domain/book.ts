@@ -5,11 +5,20 @@ interface CreateBookProps {
   author: string;
 }
 
+interface ImportBookProps {
+  title: string;
+  author: string;
+  isbn?: string;
+  publicationYear?: number;
+}
+
 interface ReconstituteBookProps {
   id: number;
   title: string;
   author: string;
   status: BookStatus;
+  isbn: string | null;
+  publicationYear: number | null;
   createdAt: Date;
 }
 
@@ -18,6 +27,8 @@ export class Book {
   readonly title: string;
   readonly author: string;
   readonly status: BookStatus;
+  readonly isbn: string | null;
+  readonly publicationYear: number | null;
   readonly createdAt?: Date;
 
   private constructor(props: {
@@ -25,12 +36,16 @@ export class Book {
     title: string;
     author: string;
     status: BookStatus;
+    isbn: string | null;
+    publicationYear: number | null;
     createdAt?: Date;
   }) {
     this.id = props.id;
     this.title = props.title;
     this.author = props.author;
     this.status = props.status;
+    this.isbn = props.isbn;
+    this.publicationYear = props.publicationYear;
     this.createdAt = props.createdAt;
   }
 
@@ -50,6 +65,33 @@ export class Book {
       title,
       author,
       status: BookStatus.WISHLIST,
+      isbn: null,
+      publicationYear: null,
+    });
+  }
+
+  static createFromImport(props: ImportBookProps): Book {
+    const title = props.title.trim();
+    const author = props.author.trim();
+
+    if (!title) {
+      throw new Error("Title is required");
+    }
+
+    if (!author) {
+      throw new Error("Author is required");
+    }
+
+    if (props.publicationYear !== undefined && props.publicationYear <= 0) {
+      throw new Error("Publication year must be a positive integer");
+    }
+
+    return new Book({
+      title,
+      author,
+      status: BookStatus.WISHLIST,
+      isbn: props.isbn ?? null,
+      publicationYear: props.publicationYear ?? null,
     });
   }
 
@@ -59,6 +101,8 @@ export class Book {
       title: props.title,
       author: props.author,
       status: props.status,
+      isbn: props.isbn,
+      publicationYear: props.publicationYear,
       createdAt: props.createdAt,
     });
   }

@@ -12,6 +12,8 @@ export class PrismaBookRepository implements BookRepository {
         title: book.title,
         author: book.author,
         status: book.status,
+        isbn: book.isbn,
+        publicationYear: book.publicationYear,
       },
     });
 
@@ -20,6 +22,8 @@ export class PrismaBookRepository implements BookRepository {
       title: record.title,
       author: record.author,
       status: record.status as BookStatus,
+      isbn: record.isbn,
+      publicationYear: record.publicationYear,
       createdAt: record.createdAt,
     });
   }
@@ -35,6 +39,8 @@ export class PrismaBookRepository implements BookRepository {
         title: record.title,
         author: record.author,
         status: record.status as BookStatus,
+        isbn: record.isbn,
+        publicationYear: record.publicationYear,
         createdAt: record.createdAt,
       })
     );
@@ -54,6 +60,28 @@ export class PrismaBookRepository implements BookRepository {
       title: record.title,
       author: record.author,
       status: record.status as BookStatus,
+      isbn: record.isbn,
+      publicationYear: record.publicationYear,
+      createdAt: record.createdAt,
+    });
+  }
+
+  async findByIsbn(isbn: string): Promise<Book | null> {
+    const record = await this.prisma.book.findFirst({
+      where: { isbn },
+    });
+
+    if (!record) {
+      return null;
+    }
+
+    return Book.reconstitute({
+      id: record.id,
+      title: record.title,
+      author: record.author,
+      status: record.status as BookStatus,
+      isbn: record.isbn,
+      publicationYear: record.publicationYear,
       createdAt: record.createdAt,
     });
   }
