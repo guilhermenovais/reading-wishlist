@@ -17,6 +17,8 @@ export async function GET() {
       title: book.title,
       author: book.author,
       status: book.status,
+      isbn: book.isbn,
+      publicationYear: book.publicationYear,
       createdAt: book.createdAt,
     })),
   });
@@ -24,7 +26,12 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { title, author } = body as { title?: string; author?: string };
+  const { title, author, isbn, publicationYear } = body as {
+    title?: string;
+    author?: string;
+    isbn?: string;
+    publicationYear?: number;
+  };
 
   if (!title || !title.trim()) {
     return NextResponse.json({ error: "Title is required" }, { status: 400 });
@@ -36,7 +43,10 @@ export async function POST(request: NextRequest) {
 
   try {
     const service = getBookService();
-    const book = await service.addBook({ title, author });
+    const isImport = isbn !== undefined || publicationYear !== undefined;
+    const book = isImport
+      ? await service.importBook({ title, author, isbn, publicationYear })
+      : await service.addBook({ title, author });
 
     return NextResponse.json(
       {
@@ -44,12 +54,15 @@ export async function POST(request: NextRequest) {
         title: book.title,
         author: book.author,
         status: book.status,
+        isbn: book.isbn,
+        publicationYear: book.publicationYear,
         createdAt: book.createdAt,
       },
       { status: 201 }
     );
   } catch (error) {
     const message = error instanceof Error ? error.message : "Internal server error";
-    return NextResponse.json({ error: message }, { status: 400 });
+    const status = message.includes("ISBN already exists") ? 409 : 400;
+    return NextResponse.json({ error: message }, { status });
   }
 }

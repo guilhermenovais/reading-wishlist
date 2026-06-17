@@ -94,3 +94,54 @@ describe("BookService.removeBook", () => {
     await expect(service.removeBook(999)).rejects.toThrow("Book not found");
   });
 });
+
+describe("BookService.importBook", () => {
+  it("imports a book with all fields", async () => {
+    const book = await service.importBook({
+      title: "Clean Code",
+      author: "Robert C. Martin",
+      isbn: "9780132350884",
+      publicationYear: 2008,
+    });
+
+    expect(book.title).toBe("Clean Code");
+    expect(book.author).toBe("Robert C. Martin");
+    expect(book.isbn).toBe("9780132350884");
+    expect(book.publicationYear).toBe(2008);
+  });
+
+  it("rejects duplicate ISBN", async () => {
+    await service.importBook({
+      title: "Clean Code",
+      author: "Robert C. Martin",
+      isbn: "9780132350884",
+      publicationYear: 2008,
+    });
+
+    await expect(
+      service.importBook({
+        title: "Clean Code 2nd",
+        author: "Robert C. Martin",
+        isbn: "9780132350884",
+        publicationYear: 2020,
+      })
+    ).rejects.toThrow("A book with this ISBN already exists in your wishlist");
+  });
+
+  it("allows import without ISBN (no duplicate check)", async () => {
+    await service.importBook({ title: "Book A", author: "Author A" });
+    const bookB = await service.importBook({ title: "Book B", author: "Author B" });
+
+    expect(bookB.title).toBe("Book B");
+  });
+
+  it("allows import without publicationYear", async () => {
+    const book = await service.importBook({
+      title: "Some Book",
+      author: "Author",
+      isbn: "9781234567890",
+    });
+
+    expect(book.publicationYear).toBeNull();
+  });
+});

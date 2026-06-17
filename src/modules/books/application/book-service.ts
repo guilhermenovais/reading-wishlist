@@ -6,11 +6,35 @@ interface AddBookInput {
   author: string;
 }
 
+interface ImportBookInput {
+  title: string;
+  author: string;
+  isbn?: string;
+  publicationYear?: number;
+}
+
 export class BookService {
   constructor(private readonly bookRepository: BookRepository) {}
 
   async addBook(input: AddBookInput): Promise<Book> {
     const book = Book.create({ title: input.title, author: input.author });
+    return this.bookRepository.save(book);
+  }
+
+  async importBook(input: ImportBookInput): Promise<Book> {
+    if (input.isbn) {
+      const existing = await this.bookRepository.findByIsbn(input.isbn);
+      if (existing) {
+        throw new Error("A book with this ISBN already exists in your wishlist");
+      }
+    }
+
+    const book = Book.createFromImport({
+      title: input.title,
+      author: input.author,
+      isbn: input.isbn,
+      publicationYear: input.publicationYear,
+    });
     return this.bookRepository.save(book);
   }
 

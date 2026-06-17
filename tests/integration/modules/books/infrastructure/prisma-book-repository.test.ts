@@ -89,4 +89,56 @@ describe("PrismaBookRepository", () => {
       await expect(repository.deleteById(999)).rejects.toThrow("Book not found");
     });
   });
+
+  describe("findByIsbn", () => {
+    it("finds a book by ISBN", async () => {
+      const book = Book.createFromImport({
+        title: "Clean Code",
+        author: "Robert C. Martin",
+        isbn: "9780132350884",
+        publicationYear: 2008,
+      });
+      await repository.save(book);
+
+      const found = await repository.findByIsbn("9780132350884");
+
+      expect(found).not.toBeNull();
+      expect(found!.title).toBe("Clean Code");
+      expect(found!.isbn).toBe("9780132350884");
+      expect(found!.publicationYear).toBe(2008);
+    });
+
+    it("returns null for non-existent ISBN", async () => {
+      const found = await repository.findByIsbn("0000000000000");
+
+      expect(found).toBeNull();
+    });
+  });
+
+  describe("persist and retrieve isbn/publicationYear", () => {
+    it("persists and retrieves isbn and publicationYear", async () => {
+      const book = Book.createFromImport({
+        title: "Test Book",
+        author: "Test Author",
+        isbn: "9781234567890",
+        publicationYear: 2020,
+      });
+      const saved = await repository.save(book);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.isbn).toBe("9781234567890");
+      expect(found!.publicationYear).toBe(2020);
+    });
+
+    it("persists null isbn and publicationYear for manually added books", async () => {
+      const book = Book.create({ title: "Manual Book", author: "Author" });
+      const saved = await repository.save(book);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.isbn).toBeNull();
+      expect(found!.publicationYear).toBeNull();
+    });
+  });
 });

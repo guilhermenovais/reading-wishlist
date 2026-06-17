@@ -9,6 +9,8 @@ interface BookSummary {
   title: string;
   author: string;
   status: string;
+  isbn: string | null;
+  publicationYear: number | null;
 }
 
 interface BookListProps {
@@ -64,7 +66,13 @@ export function BookList({ refreshKey, onBookRemoved }: BookListProps) {
           <li key={book.id}>
             <Link href={`/books/${book.id}`}>
               <strong>{book.title}</strong> by {book.author}
+              {book.publicationYear && ` (${book.publicationYear})`}
             </Link>
+            {book.isbn && (
+              <span style={{ fontSize: "0.85em", color: "#666" }}>
+                {" "}— ISBN: {book.isbn}
+              </span>
+            )}
             {" "}
             <button onClick={() => setRemovingBook(book)}>Remove</button>
           </li>
