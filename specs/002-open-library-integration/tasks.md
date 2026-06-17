@@ -19,12 +19,12 @@
 
 **Purpose**: Database migration and shared domain extensions needed before any user story
 
-- [ ] T001 Extend Prisma schema with nullable `isbn` (String?) and `publicationYear` (Int?) columns in `prisma/schema.prisma`
-- [ ] T002 Run `npx prisma migrate dev` to generate and apply the migration for the new columns
-- [ ] T003 Extend the Book domain entity with optional `isbn` and `publicationYear` fields and add `Book.createFromImport()` factory method in `src/modules/books/domain/book.ts`
-- [ ] T004 Extend the `BookRepository` interface with `findByIsbn(isbn: string): Promise<Book | null>` in `src/modules/books/domain/book-repository.ts`
-- [ ] T005 [P] Define `SearchResult` value object and `BookSearchProvider` interface with `searchByTitle(title: string): Promise<SearchResult[]>` in `src/modules/books/domain/book-search-provider.ts`
-- [ ] T006 Extend `Book.reconstitute()` to accept `isbn` and `publicationYear` in `src/modules/books/domain/book.ts`
+- [X] T001 Extend Prisma schema with nullable `isbn` (String?) and `publicationYear` (Int?) columns in `prisma/schema.prisma`
+- [X] T002 Run `npx prisma migrate dev` to generate and apply the migration for the new columns
+- [X] T003 Extend the Book domain entity with optional `isbn` and `publicationYear` fields and add `Book.createFromImport()` factory method in `src/modules/books/domain/book.ts`
+- [X] T004 Extend the `BookRepository` interface with `findByIsbn(isbn: string): Promise<Book | null>` in `src/modules/books/domain/book-repository.ts`
+- [X] T005 [P] Define `SearchResult` value object and `BookSearchProvider` interface with `searchByTitle(title: string): Promise<SearchResult[]>` in `src/modules/books/domain/book-search-provider.ts`
+- [X] T006 Extend `Book.reconstitute()` to accept `isbn` and `publicationYear` in `src/modules/books/domain/book.ts`
 
 **Checkpoint**: Schema migrated, domain layer extended — ready for user story implementation.
 
@@ -36,8 +36,8 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T007 Extend `PrismaBookRepository` to persist and hydrate `isbn` and `publicationYear` fields, and implement `findByIsbn()` in `src/modules/books/infrastructure/prisma-book-repository.ts`
-- [ ] T008 Extend the in-memory book repository test helper with `isbn`, `publicationYear` support and `findByIsbn()` in `tests/helpers/in-memory-book-repository.ts`
+- [X] T007 Extend `PrismaBookRepository` to persist and hydrate `isbn` and `publicationYear` fields, and implement `findByIsbn()` in `src/modules/books/infrastructure/prisma-book-repository.ts`
+- [X] T008 Extend the in-memory book repository test helper with `isbn`, `publicationYear` support and `findByIsbn()` in `tests/helpers/in-memory-book-repository.ts`
 
 **Checkpoint**: Foundation ready — user story implementation can now begin.
 
@@ -53,18 +53,18 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T009 [P] [US1] Write unit tests for `SearchService.searchByTitle()` in `tests/unit/modules/books/application/search-service.test.ts` — test successful search, empty results, and provider error propagation
-- [ ] T010 [P] [US1] Write integration tests for `OpenLibrarySearchProvider` in `tests/integration/modules/books/infrastructure/open-library-search-provider.test.ts` — test response mapping (title, author array→string, first_publish_year, isbn array→ISBN-13), missing fields, and HTTP error handling
+- [X] T009 [P] [US1] Write unit tests for `SearchService.searchByTitle()` in `tests/unit/modules/books/application/search-service.test.ts` — test successful search, empty results, and provider error propagation
+- [X] T010 [P] [US1] Write integration tests for `OpenLibrarySearchProvider` in `tests/integration/modules/books/infrastructure/open-library-search-provider.test.ts` — test response mapping (title, author array→string, first_publish_year, isbn array→ISBN-13), missing fields, and HTTP error handling
 
 ### Implementation for User Story 1
 
-- [ ] T011 [US1] Implement `OpenLibrarySearchProvider` HTTP client in `src/modules/books/infrastructure/open-library-search-provider.ts` — call `https://openlibrary.org/search.json?title={query}&fields=title,author_name,first_publish_year,isbn&limit=10`, map response to `SearchResult[]`
-- [ ] T012 [US1] Implement `SearchService` with `searchByTitle(title: string)` use case in `src/modules/books/application/search-service.ts` — delegates to `BookSearchProvider`
-- [ ] T013 [US1] Implement `GET /api/search?title=...` route in `src/app/api/search/route.ts` — validate title param (400 if missing), call `SearchService`, return results (200) or error (502 if provider fails)
-- [ ] T014 [P] [US1] Create `SearchForm` component in `src/modules/books/presentation/search-form.tsx` — text input, submit button, empty-input validation
-- [ ] T015 [P] [US1] Create `SearchResults` component in `src/modules/books/presentation/search-results.tsx` — display results list with title, author, publicationYear, isbn; show "no results" message; show error message
-- [ ] T016 [US1] Create `/search` page in `src/app/search/page.tsx` — compose `SearchForm` and `SearchResults`, wire fetch to `/api/search`, handle loading/error/empty states
-- [ ] T017 [US1] Add navigation link from the wishlist page to `/search` in `src/app/page.tsx`
+- [X] T011 [US1] Implement `OpenLibrarySearchProvider` HTTP client in `src/modules/books/infrastructure/open-library-search-provider.ts` — call `https://openlibrary.org/search.json?title={query}&fields=title,author_name,first_publish_year,isbn&limit=10`, map response to `SearchResult[]`
+- [X] T012 [US1] Implement `SearchService` with `searchByTitle(title: string)` use case in `src/modules/books/application/search-service.ts` — delegates to `BookSearchProvider`
+- [X] T013 [US1] Implement `GET /api/search?title=...` route in `src/app/api/search/route.ts` — validate title param (400 if missing), call `SearchService`, return results (200) or error (502 if provider fails)
+- [X] T014 [P] [US1] Create `SearchForm` component in `src/modules/books/presentation/search-form.tsx` — text input, submit button, empty-input validation
+- [X] T015 [P] [US1] Create `SearchResults` component in `src/modules/books/presentation/search-results.tsx` — display results list with title, author, publicationYear, isbn; show "no results" message; show error message
+- [X] T016 [US1] Create `/search` page in `src/app/search/page.tsx` — compose `SearchForm` and `SearchResults`, wire fetch to `/api/search`, handle loading/error/empty states
+- [X] T017 [US1] Add navigation link from the wishlist page to `/search` in `src/app/page.tsx`
 
 **Checkpoint**: User Story 1 fully functional — users can search books and see results.
 
@@ -80,17 +80,17 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T018 [P] [US2] Write unit tests for `BookService.importBook()` in `tests/unit/modules/books/application/book-service.test.ts` — test successful import, duplicate ISBN rejection, import without ISBN allowed, import without publicationYear allowed
-- [ ] T019 [P] [US2] Write unit tests for `Book.createFromImport()` in `tests/unit/modules/books/domain/book.test.ts` — test creation with all fields, with optional fields missing, validation rules (VR-004, VR-005)
-- [ ] T020 [P] [US2] Write integration tests for `PrismaBookRepository.findByIsbn()` in `tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts` — test find existing ISBN, find non-existent ISBN, persist and retrieve isbn/publicationYear fields
+- [X] T018 [P] [US2] Write unit tests for `BookService.importBook()` in `tests/unit/modules/books/application/book-service.test.ts` — test successful import, duplicate ISBN rejection, import without ISBN allowed, import without publicationYear allowed
+- [X] T019 [P] [US2] Write unit tests for `Book.createFromImport()` in `tests/unit/modules/books/domain/book-import.test.ts` — test creation with all fields, with optional fields missing, validation rules (VR-004, VR-005)
+- [X] T020 [P] [US2] Write integration tests for `PrismaBookRepository.findByIsbn()` in `tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts` — test find existing ISBN, find non-existent ISBN, persist and retrieve isbn/publicationYear fields
 
 ### Implementation for User Story 2
 
-- [ ] T021 [US2] Implement `BookService.importBook()` with duplicate ISBN check in `src/modules/books/application/book-service.ts` — call `findByIsbn()`, reject if duplicate, otherwise `Book.createFromImport()` and save
-- [ ] T022 [US2] Extend `POST /api/books` route to accept optional `isbn` and `publicationYear` fields and return 409 on duplicate ISBN in `src/app/api/books/route.ts`
-- [ ] T023 [US2] Add import button to each search result in `src/modules/books/presentation/search-results.tsx` — call `POST /api/books`, mark imported books as "already added", show duplicate ISBN error message
-- [ ] T024 [US2] Extend `GET /api/books` response to include `isbn` and `publicationYear` in `src/app/api/books/route.ts`
-- [ ] T025 [US2] Extend book list display to show isbn and publicationYear if present in `src/modules/books/presentation/book-list.tsx`
+- [X] T021 [US2] Implement `BookService.importBook()` with duplicate ISBN check in `src/modules/books/application/book-service.ts` — call `findByIsbn()`, reject if duplicate, otherwise `Book.createFromImport()` and save
+- [X] T022 [US2] Extend `POST /api/books` route to accept optional `isbn` and `publicationYear` fields and return 409 on duplicate ISBN in `src/app/api/books/route.ts`
+- [X] T023 [US2] Add import button to each search result in `src/modules/books/presentation/search-results.tsx` — call `POST /api/books`, mark imported books as "already added", show duplicate ISBN error message
+- [X] T024 [US2] Extend `GET /api/books` response to include `isbn` and `publicationYear` in `src/app/api/books/route.ts`
+- [X] T025 [US2] Extend book list display to show isbn and publicationYear if present in `src/modules/books/presentation/book-list.tsx`
 
 **Checkpoint**: User Stories 1 AND 2 fully functional — users can search and import books into their wishlist with duplicate protection.
 
@@ -106,12 +106,12 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T026 [P] [US3] Write unit/component tests for extended `BookDetail` in `tests/unit/modules/books/presentation/book-detail.test.ts` (if presentation tests exist) — test display with all fields, display with missing isbn/publicationYear
+- [X] T026 [P] [US3] Write unit/component tests for extended `BookDetail` in `tests/unit/modules/books/presentation/book-detail.test.ts` (if presentation tests exist) — test display with all fields, display with missing isbn/publicationYear
 
 ### Implementation for User Story 3
 
-- [ ] T027 [US3] Extend `BookDetail` component to display ISBN and publication year (with "Not available" for missing fields) in `src/modules/books/presentation/book-detail.tsx`
-- [ ] T028 [US3] Extend `GET /api/books/:id` response to include `isbn` and `publicationYear` in `src/app/api/books/[id]/route.ts`
+- [X] T027 [US3] Extend `BookDetail` component to display ISBN and publication year (with "Not available" for missing fields) in `src/modules/books/presentation/book-detail.tsx`
+- [X] T028 [US3] Extend `GET /api/books/:id` response to include `isbn` and `publicationYear` in `src/app/api/books/[id]/route.ts`
 
 **Checkpoint**: All user stories independently functional — full search, import, and detail view flow complete.
 
@@ -121,9 +121,9 @@
 
 **Purpose**: End-to-end validation and cross-cutting concerns
 
-- [ ] T029 Write E2E test for search-and-import flow in `tests/e2e/book-search.spec.ts` — search for a book, import it, verify it appears in wishlist, verify duplicate detection
-- [ ] T030 Verify existing E2E tests in `tests/e2e/books-wishlist.spec.ts` still pass (no regression from schema changes)
-- [ ] T031 Run quickstart.md validation — follow all steps and verify the feature works end-to-end
+- [X] T029 Write E2E test for search-and-import flow in `tests/e2e/book-search.spec.ts` — search for a book, import it, verify it appears in wishlist, verify duplicate detection
+- [X] T030 Verify existing E2E tests in `tests/e2e/books-wishlist.spec.ts` still pass (no regression from schema changes)
+- [X] T031 Run quickstart.md validation — follow all steps and verify the feature works end-to-end
 
 ---
 
