@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { RemoveBookDialog } from "./remove-book-dialog";
+import styles from "./book-detail.module.css";
 
 interface BookData {
   id: number;
@@ -63,21 +64,21 @@ export function BookDetail({ bookId }: BookDetailProps) {
   }
 
   return (
-    <div>
+    <div className={styles.detailContainer}>
       <h2>{book.title}</h2>
-      <dl>
-        <dt>Author</dt>
-        <dd>{book.author}</dd>
-        <dt>Status</dt>
-        <dd>{book.status}</dd>
-        <dt>ISBN</dt>
-        <dd>{book.isbn ?? "Not available"}</dd>
-        <dt>Publication Year</dt>
-        <dd>{book.publicationYear ?? "Not available"}</dd>
-        <dt>Added</dt>
-        <dd>{new Date(book.createdAt).toLocaleDateString()}</dd>
-        <dt>ID</dt>
-        <dd>{book.id}</dd>
+      <dl className={styles.metadataGrid}>
+        <dt className={styles.metadataKey}>Author</dt>
+        <dd className={styles.metadataValue}>{book.author}</dd>
+        <dt className={styles.metadataKey}>Status</dt>
+        <dd className={styles.metadataValue}>{book.status}</dd>
+        <dt className={styles.metadataKey}>ISBN</dt>
+        <dd className={styles.metadataValue}>{book.isbn ?? "Not available"}</dd>
+        <dt className={styles.metadataKey}>Publication Year</dt>
+        <dd className={styles.metadataValue}>{book.publicationYear ?? "Not available"}</dd>
+        <dt className={styles.metadataKey}>Added</dt>
+        <dd className={styles.metadataValue}>{new Date(book.createdAt).toLocaleDateString()}</dd>
+        <dt className={styles.metadataKey}>ID</dt>
+        <dd className={styles.metadataValue}>{book.id}</dd>
       </dl>
       {showRemoveDialog ? (
         <RemoveBookDialog
@@ -87,10 +88,11 @@ export function BookDetail({ bookId }: BookDetailProps) {
           onCancel={() => setShowRemoveDialog(false)}
         />
       ) : (
-        <button onClick={() => setShowRemoveDialog(true)}>Remove</button>
+        <button className={styles.removeButton} onClick={() => setShowRemoveDialog(true)}>
+          Remove
+        </button>
       )}
-      <br />
-      <Link href="/">Back to wishlist</Link>
+      <Link href="/" className={styles.backLink}>Back to wishlist</Link>
     </div>
   );
 }

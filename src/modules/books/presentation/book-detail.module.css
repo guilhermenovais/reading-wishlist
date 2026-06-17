@@ -1,0 +1,59 @@
+.detailContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.metadataGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2) var(--space-4);
+}
+
+.metadataKey {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.metadataValue {
+  margin: 0;
+}
+
+.removeButton {
+  min-height: 44px;
+  padding: var(--space-3) var(--space-5);
+  background-color: transparent;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.removeButton:hover {
+  background-color: var(--color-error);
+  color: var(--color-background);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.backLink::before {
+  content: "\2190";
+}
