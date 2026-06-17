@@ -29,6 +29,7 @@ export async function GET(
       status: book.status,
       isbn: book.isbn,
       publicationYear: book.publicationYear,
+      readingStartDate: book.readingStartDate,
       createdAt: book.createdAt,
     });
   } catch {
