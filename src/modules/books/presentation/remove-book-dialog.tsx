@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import styles from "./remove-book-dialog.module.css";
 
 interface RemoveBookDialogProps {
   bookId: number;
@@ -33,17 +34,26 @@ export function RemoveBookDialog({
   }
 
   return (
-    <div role="dialog" aria-label="Confirm removal">
-      <p>
-        Are you sure you want to remove <strong>{bookTitle}</strong> from your
-        wishlist?
-      </p>
-      <button onClick={handleConfirm} disabled={removing}>
-        {removing ? "Removing..." : "Confirm"}
-      </button>
-      <button onClick={onCancel} disabled={removing}>
-        Cancel
-      </button>
+    <div className={styles.overlay} onClick={onCancel}>
+      <div
+        role="dialog"
+        aria-label="Confirm removal"
+        className={styles.dialog}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <p className={styles.message}>
+          Are you sure you want to remove <strong>{bookTitle}</strong> from your
+          wishlist?
+        </p>
+        <div className={styles.actions}>
+          <button className={styles.cancelButton} onClick={onCancel} disabled={removing}>
+            Cancel
+          </button>
+          <button className={styles.confirmButton} onClick={handleConfirm} disabled={removing}>
+            {removing ? "Removing..." : "Confirm"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
