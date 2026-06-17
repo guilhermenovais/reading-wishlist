@@ -25,7 +25,7 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T001 Create Dockerfile.dev with node:24-slim base image, WORKDIR /app, COPY package*.json, npm ci, and COPY project files at Dockerfile.dev
+- [x] T001 Create Dockerfile.dev with node:24-slim base image, WORKDIR /app, COPY package*.json, npm ci, and COPY project files at Dockerfile.dev
 
 **Checkpoint**: Base image definition ready — user story implementation can now begin
 
@@ -39,9 +39,9 @@
 
 ### Implementation for User Story 1
 
-- [ ] T002 [US1] Create docker-entrypoint.sh with PostgreSQL readiness wait loop, npx prisma migrate deploy, and exec npm run dev at docker-entrypoint.sh
-- [ ] T003 [US1] Set executable permission on docker-entrypoint.sh
-- [ ] T004 [US1] Create docker-compose.yml with app service (build from Dockerfile.dev, entrypoint, depends_on db with service_healthy condition, DATABASE_URL env var) and db service (postgres:17-alpine, POSTGRES_USER/PASSWORD/DB env vars, pg_isready healthcheck) at docker-compose.yml
+- [x] T002 [US1] Create docker-entrypoint.sh with PostgreSQL readiness wait loop, npx prisma migrate deploy, and exec npm run dev at docker-entrypoint.sh
+- [x] T003 [US1] Set executable permission on docker-entrypoint.sh
+- [x] T004 [US1] Create docker-compose.yml with app service (build from Dockerfile.dev, entrypoint, depends_on db with service_healthy condition, DATABASE_URL env var) and db service (postgres:17-alpine, POSTGRES_USER/PASSWORD/DB env vars, pg_isready healthcheck) at docker-compose.yml
 
 **Checkpoint**: `docker compose up` starts both services and the application is accessible — core MVP functional
 
@@ -55,8 +55,8 @@
 
 ### Implementation for User Story 2
 
-- [ ] T005 [US2] Add source code bind mount (.:/app) and anonymous node_modules volume (/app/node_modules) to app service volumes in docker-compose.yml
-- [ ] T006 [US2] Add WATCHPACK_POLLING=true environment variable to app service in docker-compose.yml
+- [x] T005 [US2] Add source code bind mount (.:/app) and anonymous node_modules volume (/app/node_modules) to app service volumes in docker-compose.yml
+- [x] T006 [US2] Add WATCHPACK_POLLING=true environment variable to app service in docker-compose.yml
 
 **Checkpoint**: Editing source files on the host triggers automatic reload in the containerized application
 
@@ -70,8 +70,8 @@
 
 ### Implementation for User Story 3
 
-- [ ] T007 [US3] Add custom bridge network (app-network) definition to docker-compose.yml and assign both app and db services to it
-- [ ] T008 [US3] Add port mapping 3000:3000 to app service only in docker-compose.yml (db service must have no ports key)
+- [x] T007 [US3] Add custom bridge network (app-network) definition to docker-compose.yml and assign both app and db services to it
+- [x] T008 [US3] Add port mapping 3000:3000 to app service only in docker-compose.yml (db service must have no ports key)
 
 **Checkpoint**: Only port 3000 is reachable from the host; database is isolated on the internal network
 
@@ -85,7 +85,7 @@
 
 ### Implementation for User Story 4
 
-- [ ] T009 [US4] Add pgdata named volume definition to docker-compose.yml and mount to /var/lib/postgresql/data for db service
+- [x] T009 [US4] Add pgdata named volume definition to docker-compose.yml and mount to /var/lib/postgresql/data for db service
 
 **Checkpoint**: Data persists across `docker compose down` / `docker compose up` cycles; `docker compose down -v` resets to clean state
 
@@ -99,7 +99,7 @@
 
 ### Implementation for User Story 5
 
-- [ ] T010 [US5] Add Playwright Chromium browser installation (RUN npx playwright install --with-deps chromium) to Dockerfile.dev
+- [x] T010 [US5] Add Playwright Chromium browser installation (RUN npx playwright install --with-deps chromium) to Dockerfile.dev
 
 **Checkpoint**: All three test suites run inside the container via `docker compose exec app <command>`
 
@@ -109,8 +109,8 @@
 
 **Purpose**: Validation and verification across all user stories
 
-- [ ] T011 Validate all quickstart.md scenarios against the running Docker environment
-- [ ] T012 Verify all success criteria (SC-001 through SC-006) are met
+- [x] T011 Validate all quickstart.md scenarios against the running Docker environment
+- [x] T012 Verify all success criteria (SC-001 through SC-006) are met
 
 ---
 
