@@ -27,6 +27,8 @@ export async function GET(
       title: book.title,
       author: book.author,
       status: book.status,
+      isbn: book.isbn,
+      publicationYear: book.publicationYear,
       createdAt: book.createdAt,
     });
   } catch {

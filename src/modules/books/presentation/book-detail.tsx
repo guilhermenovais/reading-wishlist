@@ -10,6 +10,8 @@ interface BookData {
   title: string;
   author: string;
   status: string;
+  isbn: string | null;
+  publicationYear: number | null;
   createdAt: string;
 }
 
@@ -68,6 +70,10 @@ export function BookDetail({ bookId }: BookDetailProps) {
         <dd>{book.author}</dd>
         <dt>Status</dt>
         <dd>{book.status}</dd>
+        <dt>ISBN</dt>
+        <dd>{book.isbn ?? "Not available"}</dd>
+        <dt>Publication Year</dt>
+        <dd>{book.publicationYear ?? "Not available"}</dd>
         <dt>Added</dt>
         <dd>{new Date(book.createdAt).toLocaleDateString()}</dd>
         <dt>ID</dt>
