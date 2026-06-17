@@ -17,7 +17,7 @@ As a user, I want to search for books by title using real-world book data, so th
 
 **Acceptance Scenarios**:
 
-1. **Given** the user is on the search page, **When** the user enters a book title and submits the search, **Then** the system displays a list of matching results from Open Library, each showing title, author, publication year, and ISBN
+1. **Given** the user navigates to the dedicated `/search` page via the navigation link on the wishlist page, **When** the user enters a book title and submits the search, **Then** the system displays a list of up to 10 matching results from Open Library, each showing title, author, publication year, and ISBN
 2. **Given** the user searches for a term with no matching results, **When** the search completes, **Then** the system informs the user that no results were found
 3. **Given** the user submits a search, **When** the Open Library service is unavailable, **Then** the system displays a user-friendly error message indicating the search could not be completed
 4. **Given** the user has not entered a search term, **When** the user attempts to search, **Then** the system prompts the user to enter a search term
@@ -34,7 +34,7 @@ As a user, I want to select a book from the search results and add it to my pers
 
 **Acceptance Scenarios**:
 
-1. **Given** search results are displayed, **When** the user selects a book to import, **Then** the book is added to the wishlist with status "WISHLIST" and all available fields (title, author, publication year, ISBN) are populated
+1. **Given** search results are displayed, **When** the user selects a book to import, **Then** the book is added to the wishlist with status "WISHLIST" and all available fields (title, author, publication year, ISBN) are populated, and the user remains on the search results page with the imported book visually marked as "already added"
 2. **Given** the user imports a book that has no ISBN from Open Library, **When** the import completes, **Then** the book is still added to the wishlist with the ISBN field left empty
 3. **Given** a book with the same ISBN already exists in the wishlist, **When** the user attempts to import it, **Then** the system prevents the duplicate and informs the user the book is already in their wishlist
 4. **Given** the user imports a book that has no publication year from Open Library, **When** the import completes, **Then** the book is still added with the publication year field left empty
@@ -61,7 +61,7 @@ As a user, I want to see the full details of an imported book, including the new
 - What happens when Open Library returns results with missing or incomplete data (no author, no publication year, no ISBN)? The system should display whatever data is available and allow import with missing optional fields.
 - What happens when a user imports a book without an ISBN and later tries to import another book without an ISBN? Since there is no ISBN to check for duplicates, both imports should succeed (duplicate detection only applies to books with matching ISBNs).
 - What happens when the Open Library API returns an error or times out? The system should display a user-friendly error message and allow the user to retry.
-- What happens when search results contain many entries? The system should display results in a manageable list (reasonable page of results).
+- What happens when search results contain many entries? The system displays up to 10 results per search query.
 
 ## Requirements *(mandatory)*
 
@@ -94,6 +94,14 @@ As a user, I want to see the full details of an imported book, including the new
 - **SC-005**: When the Open Library service is unavailable, users see a clear error message instead of a broken or empty page
 - **SC-006**: All four specified test cases pass: successful API response mapping, successful import, duplicate ISBN prevention, and API failure handling
 
+## Clarifications
+
+### Session 2026-06-17
+
+- Q: What is the maximum number of search results to display per query? → A: Up to 10 results per search
+- Q: What happens after a user successfully imports a book from search results? → A: Stay on search results, visually mark the imported book as "already added" (no separate message)
+- Q: Where does the search UI live within the app? → A: Dedicated /search page accessible via a navigation link from the main wishlist page
+
 ## Assumptions
 
 - The existing Reading Wishlist application (from feature 001) is in place and provides the book persistence layer, book listing, detail view, and removal capabilities
@@ -101,6 +109,6 @@ As a user, I want to see the full details of an imported book, including the new
 - This is a single-user application; there is no multi-user or authentication requirement
 - Open Library's public search API is used and does not require authentication
 - Search is performed by title only; advanced search options (by author, by ISBN) are out of scope for this feature
-- The system displays a reasonable number of search results per query (not all results from Open Library)
+- The system displays up to 10 search results per query
 - No offline caching of Open Library data is required; search always queries the live service
 - Manually created books (from feature 001) continue to work and do not require ISBN or publication year
