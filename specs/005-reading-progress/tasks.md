@@ -17,7 +17,7 @@
 
 **Purpose**: Database schema changes and migration
 
-- [ ] T001 Update Prisma schema to add READING enum value to BookStatus and readingStartDate DateTime? field to Book model, then generate migration in prisma/schema.prisma
+- [x] T001 Update Prisma schema to add READING enum value to BookStatus and readingStartDate DateTime? field to Book model, then generate migration in prisma/schema.prisma
 
 ---
 
@@ -27,11 +27,11 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T002 Add READING value to BookStatus enum in src/modules/books/domain/book-status.ts
-- [ ] T003 [P] Add readingStartDate field and startReading() method to Book entity in src/modules/books/domain/book.ts
-- [ ] T004 [P] Add update() and findByStatus() method signatures to BookRepository interface in src/modules/books/domain/book-repository.ts
-- [ ] T005 [P] Implement update() and findByStatus() methods on PrismaBookRepository in src/modules/books/infrastructure/prisma-book-repository.ts
-- [ ] T006 [P] Implement update() and findByStatus() methods on InMemoryBookRepository in tests/helpers/in-memory-book-repository.ts
+- [x] T002 Add READING value to BookStatus enum in src/modules/books/domain/book-status.ts
+- [x] T003 [P] Add readingStartDate field and startReading() method to Book entity in src/modules/books/domain/book.ts
+- [x] T004 [P] Add update() and findByStatus() method signatures to BookRepository interface in src/modules/books/domain/book-repository.ts
+- [x] T005 [P] Implement update() and findByStatus() methods on PrismaBookRepository in src/modules/books/infrastructure/prisma-book-repository.ts
+- [x] T006 [P] Implement update() and findByStatus() methods on InMemoryBookRepository in tests/helpers/in-memory-book-repository.ts
 
 **Checkpoint**: Foundation ready — domain entity supports READING status, repository can update books and query by status. User story implementation can now begin.
 
@@ -47,15 +47,15 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T007 [P] [US1] Write unit tests for Book.startReading() domain method (valid transition, reject non-WISHLIST, readingStartDate set) in tests/unit/modules/books/domain/book-start-reading.test.ts
-- [ ] T008 [P] [US1] Write unit tests for BookService.startReading() (delegates to domain, calls repository update, handles not-found) in tests/unit/modules/books/application/book-service.test.ts
-- [ ] T009 [P] [US1] Write integration tests for PrismaBookRepository.update() (persists status and readingStartDate) in tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts
+- [x] T007 [P] [US1] Write unit tests for Book.startReading() domain method (valid transition, reject non-WISHLIST, readingStartDate set) in tests/unit/modules/books/domain/book-start-reading.test.ts
+- [x] T008 [P] [US1] Write unit tests for BookService.startReading() (delegates to domain, calls repository update, handles not-found) in tests/unit/modules/books/application/book-service.test.ts
+- [x] T009 [P] [US1] Write integration tests for PrismaBookRepository.update() (persists status and readingStartDate) in tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Implement startReading() method on BookService in src/modules/books/application/book-service.ts
-- [ ] T011 [US1] Create PATCH /api/books/[id]/start-reading route handler in src/app/api/books/[id]/start-reading/route.ts
-- [ ] T012 [US1] Add "Start Reading" button (visible when WISHLIST), status display, and readingStartDate to book detail page in src/modules/books/presentation/book-detail.tsx
+- [x] T010 [US1] Implement startReading() method on BookService in src/modules/books/application/book-service.ts
+- [x] T011 [US1] Create PATCH /api/books/[id]/start-reading route handler in src/app/api/books/[id]/start-reading/route.ts
+- [x] T012 [US1] Add "Start Reading" button (visible when WISHLIST), status display, and readingStartDate to book detail page in src/modules/books/presentation/book-detail.tsx
 
 **Checkpoint**: Users can start reading a wishlist book. Status changes to READING with automatic date. Invalid transitions are rejected. This is the MVP.
 
@@ -71,15 +71,15 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T013 [P] [US2] Write unit tests for BookService.listReadingBooks() (returns only READING books, empty list) in tests/unit/modules/books/application/book-service.test.ts
-- [ ] T014 [P] [US2] Write integration tests for PrismaBookRepository.findByStatus() (filters by READING, returns empty for no matches) in tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts
+- [x] T013 [P] [US2] Write unit tests for BookService.listReadingBooks() (returns only READING books, empty list) in tests/unit/modules/books/application/book-service.test.ts
+- [x] T014 [P] [US2] Write integration tests for PrismaBookRepository.findByStatus() (filters by READING, returns empty for no matches) in tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Implement listReadingBooks() method on BookService in src/modules/books/application/book-service.ts
-- [ ] T016 [US2] Add optional status query parameter filter to GET /api/books route in src/app/api/books/route.ts
-- [ ] T017 [US2] Create reading list page with empty state at src/app/reading/page.tsx
-- [ ] T018 [US2] Add "Reading" navigation link to app layout in src/app/layout.tsx
+- [x] T015 [US2] Implement listReadingBooks() method on BookService in src/modules/books/application/book-service.ts
+- [x] T016 [US2] Add optional status query parameter filter to GET /api/books route in src/app/api/books/route.ts
+- [x] T017 [US2] Create reading list page with empty state at src/app/reading/page.tsx
+- [x] T018 [US2] Add "Reading" navigation link to app layout in src/app/layout.tsx
 
 **Checkpoint**: Users can view their reading list filtered to only currently-reading books. Empty state displayed when no books are being read.
 
@@ -93,8 +93,8 @@
 
 ### Implementation for User Story 3
 
-- [ ] T019 [US3] Add readingStartDate to GET /api/books/[id] response in src/app/api/books/[id]/route.ts
-- [ ] T020 [US3] Show status badge and readingStartDate on book list cards in src/modules/books/presentation/book-list.tsx
+- [x] T019 [US3] Add readingStartDate to GET /api/books/[id] response in src/app/api/books/[id]/route.ts
+- [x] T020 [US3] Show status badge and readingStartDate on book list cards in src/modules/books/presentation/book-list.tsx
 
 **Checkpoint**: All user stories are independently functional. Status and dates are visible across all book views.
 
@@ -104,8 +104,8 @@
 
 **Purpose**: End-to-end validation and cross-story integration testing
 
-- [ ] T021 [P] Write E2E tests for complete reading progress flow (start reading + verify detail + reading list) in tests/e2e/reading-progress.spec.ts
-- [ ] T022 Run quickstart.md validation to verify the full feature flow end-to-end
+- [x] T021 [P] Write E2E tests for complete reading progress flow (start reading + verify detail + reading list) in tests/e2e/reading-progress.spec.ts
+- [x] T022 Run quickstart.md validation to verify the full feature flow end-to-end
 
 ---
 
