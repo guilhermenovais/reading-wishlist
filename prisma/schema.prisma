@@ -9,6 +9,7 @@ datasource db {
 
 enum BookStatus {
   WISHLIST
+  READING
 }
 
 model Book {
@@ -17,6 +18,7 @@ model Book {
   author          String
   status          BookStatus @default(WISHLIST)
   isbn            String?
-  publicationYear Int?
-  createdAt       DateTime   @default(now())
+  publicationYear  Int?
+  readingStartDate DateTime?
+  createdAt        DateTime   @default(now())
 }
