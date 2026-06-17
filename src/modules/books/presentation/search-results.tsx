@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import styles from "./search-results.module.css";
 
 interface SearchResultItem {
   title: string;
@@ -22,7 +23,7 @@ export function SearchResults({ results, error, hasSearched }: SearchResultsProp
   const [importedIndices, setImportedIndices] = useState<Set<number>>(new Set());
 
   if (error) {
-    return <p role="alert">{error}</p>;
+    return <p role="alert" className={styles.alert}>{error}</p>;
   }
 
   if (hasSearched && results.length === 0) {
@@ -69,8 +70,8 @@ export function SearchResults({ results, error, hasSearched }: SearchResultsProp
   return (
     <div>
       <h2>Search Results ({results.length})</h2>
-      {importError && <p role="alert" style={{ color: "red" }}>{importError}</p>}
-      <ul>
+      {importError && <p role="alert" className={styles.alert}>{importError}</p>}
+      <ul className={styles.list}>
         {results.map((result, index) => {
           const isImported =
             (result.isbn && importedIsbns.has(result.isbn)) ||
@@ -79,21 +80,23 @@ export function SearchResults({ results, error, hasSearched }: SearchResultsProp
             importingIsbn === (result.isbn ?? `index-${index}`);
 
           return (
-            <li key={result.isbn ?? index} style={{ marginBottom: "1rem" }}>
-              <strong>{result.title}</strong>
-              {result.author && <> by {result.author}</>}
-              {result.publicationYear && <> ({result.publicationYear})</>}
-              {result.isbn && (
-                <span style={{ fontSize: "0.85em", color: "#666" }}>
-                  {" "}
-                  — ISBN: {result.isbn}
-                </span>
-              )}
-              <br />
+            <li key={result.isbn ?? index} className={styles.card}>
+              <div className={styles.bookInfo}>
+                <strong>{result.title}</strong>
+                {result.author && <> by {result.author}</>}
+                {result.publicationYear && <> ({result.publicationYear})</>}
+                {result.isbn && (
+                  <span className={styles.bookMeta}>
+                    {" "}
+                    — ISBN: {result.isbn}
+                  </span>
+                )}
+              </div>
               {isImported ? (
-                <button disabled>Already added</button>
+                <span className={styles.importedState}>&#10003; Already added</span>
               ) : (
                 <button
+                  className={styles.importButton}
                   onClick={() => handleImport(result, index)}
                   disabled={isImporting}
                 >

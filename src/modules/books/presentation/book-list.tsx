@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { RemoveBookDialog } from "./remove-book-dialog";
+import styles from "./book-list.module.css";
 
 interface BookSummary {
   id: number;
@@ -44,7 +45,7 @@ export function BookList({ refreshKey, onBookRemoved }: BookListProps) {
   }
 
   if (books.length === 0) {
-    return <p>Your wishlist is empty. Add a book to get started!</p>;
+    return <p className={styles.emptyState}>Your wishlist is empty. Add a book to get started!</p>;
   }
 
   return (
@@ -61,20 +62,28 @@ export function BookList({ refreshKey, onBookRemoved }: BookListProps) {
           onCancel={() => setRemovingBook(null)}
         />
       )}
-      <ul>
+      <ul className={styles.list}>
         {books.map((book) => (
-          <li key={book.id}>
-            <Link href={`/books/${book.id}`}>
-              <strong>{book.title}</strong> by {book.author}
-              {book.publicationYear && ` (${book.publicationYear})`}
-            </Link>
-            {book.isbn && (
-              <span style={{ fontSize: "0.85em", color: "#666" }}>
-                {" "}— ISBN: {book.isbn}
-              </span>
-            )}
-            {" "}
-            <button onClick={() => setRemovingBook(book)}>Remove</button>
+          <li key={book.id} className={styles.card}>
+            <div className={styles.cardContent}>
+              <div>
+                <Link href={`/books/${book.id}`} className={styles.bookTitle}>
+                  {book.title}
+                </Link>
+                <div className={styles.bookMeta}>
+                  by {book.author}
+                  {book.publicationYear && ` (${book.publicationYear})`}
+                  {book.isbn && <> — ISBN: {book.isbn}</>}
+                </div>
+                <span className={styles.badge}>{book.status}</span>
+              </div>
+              <button
+                className={styles.removeButton}
+                onClick={() => setRemovingBook(book)}
+              >
+                Remove
+              </button>
+            </div>
           </li>
         ))}
       </ul>
