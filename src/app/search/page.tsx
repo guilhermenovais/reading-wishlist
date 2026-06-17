@@ -46,7 +46,7 @@ export default function SearchPage() {
   }
 
   return (
-    <main style={{ maxWidth: 600, margin: "0 auto", padding: "2rem" }}>
+    <>
       <h1>Search Books</h1>
       <p>
         Search for books using the Open Library database and import them to your
@@ -56,6 +56,6 @@ export default function SearchPage() {
       <SearchResults results={results} error={error} hasSearched={hasSearched} />
       <br />
       <Link href="/">Back to wishlist</Link>
-    </main>
+    </>
   );
 }
