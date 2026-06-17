@@ -115,6 +115,65 @@ describe("PrismaBookRepository", () => {
     });
   });
 
+  describe("update", () => {
+    it("persists status and readingStartDate changes", async () => {
+      const book = Book.create({ title: "Clean Code", author: "Robert C. Martin" });
+      const saved = await repository.save(book);
+
+      const reading = saved.startReading();
+      const updated = await repository.update(reading);
+
+      expect(updated.status).toBe(BookStatus.READING);
+      expect(updated.readingStartDate).toBeInstanceOf(Date);
+    });
+
+    it("persists all fields correctly after update", async () => {
+      const book = Book.createFromImport({
+        title: "Refactoring",
+        author: "Martin Fowler",
+        isbn: "9780201485677",
+        publicationYear: 1999,
+      });
+      const saved = await repository.save(book);
+      const reading = saved.startReading();
+      const updated = await repository.update(reading);
+
+      const found = await repository.findById(updated.id!);
+
+      expect(found!.title).toBe("Refactoring");
+      expect(found!.author).toBe("Martin Fowler");
+      expect(found!.status).toBe(BookStatus.READING);
+      expect(found!.isbn).toBe("9780201485677");
+      expect(found!.publicationYear).toBe(1999);
+      expect(found!.readingStartDate).toBeInstanceOf(Date);
+    });
+  });
+
+  describe("findByStatus", () => {
+    it("returns only books with matching status", async () => {
+      const book1 = await repository.save(
+        Book.create({ title: "Book A", author: "Author A" })
+      );
+      await repository.save(Book.create({ title: "Book B", author: "Author B" }));
+      const reading = book1.startReading();
+      await repository.update(reading);
+
+      const readingBooks = await repository.findByStatus(BookStatus.READING);
+
+      expect(readingBooks).toHaveLength(1);
+      expect(readingBooks[0]!.title).toBe("Book A");
+      expect(readingBooks[0]!.status).toBe(BookStatus.READING);
+    });
+
+    it("returns empty array when no books match status", async () => {
+      await repository.save(Book.create({ title: "Book A", author: "Author A" }));
+
+      const readingBooks = await repository.findByStatus(BookStatus.READING);
+
+      expect(readingBooks).toEqual([]);
+    });
+  });
+
   describe("persist and retrieve isbn/publicationYear", () => {
     it("persists and retrieves isbn and publicationYear", async () => {
       const book = Book.createFromImport({

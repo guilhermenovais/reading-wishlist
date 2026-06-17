@@ -95,6 +95,52 @@ describe("BookService.removeBook", () => {
   });
 });
 
+describe("BookService.startReading", () => {
+  it("transitions a wishlist book to reading", async () => {
+    const book = await service.addBook({ title: "Clean Code", author: "Robert C. Martin" });
+
+    const reading = await service.startReading(book.id!);
+
+    expect(reading.status).toBe(BookStatus.READING);
+    expect(reading.readingStartDate).toBeInstanceOf(Date);
+  });
+
+  it("throws for non-existent book", async () => {
+    await expect(service.startReading(999)).rejects.toThrow("Book not found");
+  });
+
+  it("throws when book is already reading", async () => {
+    const book = await service.addBook({ title: "Clean Code", author: "Robert C. Martin" });
+    await service.startReading(book.id!);
+
+    await expect(service.startReading(book.id!)).rejects.toThrow(
+      "Only wishlist books can be started"
+    );
+  });
+});
+
+describe("BookService.listReadingBooks", () => {
+  it("returns only books with READING status", async () => {
+    const book1 = await service.addBook({ title: "Book A", author: "Author A" });
+    await service.addBook({ title: "Book B", author: "Author B" });
+    await service.startReading(book1.id!);
+
+    const readingBooks = await service.listReadingBooks();
+
+    expect(readingBooks).toHaveLength(1);
+    expect(readingBooks[0]!.title).toBe("Book A");
+    expect(readingBooks[0]!.status).toBe(BookStatus.READING);
+  });
+
+  it("returns empty array when no books are being read", async () => {
+    await service.addBook({ title: "Book A", author: "Author A" });
+
+    const readingBooks = await service.listReadingBooks();
+
+    expect(readingBooks).toEqual([]);
+  });
+});
+
 describe("BookService.importBook", () => {
   it("imports a book with all fields", async () => {
     const book = await service.importBook({

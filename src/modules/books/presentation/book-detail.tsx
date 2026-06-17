@@ -13,6 +13,7 @@ interface BookData {
   status: string;
   isbn: string | null;
   publicationYear: number | null;
+  readingStartDate: string | null;
   createdAt: string;
 }
 
@@ -26,6 +27,7 @@ export function BookDetail({ bookId }: BookDetailProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showRemoveDialog, setShowRemoveDialog] = useState(false);
+  const [startingReading, setStartingReading] = useState(false);
 
   useEffect(() => {
     async function fetchBook() {
@@ -45,6 +47,26 @@ export function BookDetail({ bookId }: BookDetailProps) {
     }
     fetchBook();
   }, [bookId]);
+
+  async function handleStartReading() {
+    setStartingReading(true);
+    try {
+      const response = await fetch(`/api/books/${bookId}/start-reading`, {
+        method: "PATCH",
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        setError(data.error || "Failed to start reading");
+        return;
+      }
+      const data = await response.json();
+      setBook(data);
+    } catch {
+      setError("Failed to start reading");
+    } finally {
+      setStartingReading(false);
+    }
+  }
 
   if (loading) {
     return <p>Loading...</p>;
@@ -71,6 +93,14 @@ export function BookDetail({ bookId }: BookDetailProps) {
         <dd className={styles.metadataValue}>{book.author}</dd>
         <dt className={styles.metadataKey}>Status</dt>
         <dd className={styles.metadataValue}>{book.status}</dd>
+        {book.readingStartDate && (
+          <>
+            <dt className={styles.metadataKey}>Reading Since</dt>
+            <dd className={styles.metadataValue}>
+              {new Date(book.readingStartDate).toLocaleDateString()}
+            </dd>
+          </>
+        )}
         <dt className={styles.metadataKey}>ISBN</dt>
         <dd className={styles.metadataValue}>{book.isbn ?? "Not available"}</dd>
         <dt className={styles.metadataKey}>Publication Year</dt>
@@ -80,18 +110,29 @@ export function BookDetail({ bookId }: BookDetailProps) {
         <dt className={styles.metadataKey}>ID</dt>
         <dd className={styles.metadataValue}>{book.id}</dd>
       </dl>
-      {showRemoveDialog ? (
-        <RemoveBookDialog
-          bookId={book.id}
-          bookTitle={book.title}
-          onRemoved={() => router.push("/")}
-          onCancel={() => setShowRemoveDialog(false)}
-        />
-      ) : (
-        <button className={styles.removeButton} onClick={() => setShowRemoveDialog(true)}>
-          Remove
-        </button>
-      )}
+      <div className={styles.actions}>
+        {book.status === "WISHLIST" && (
+          <button
+            className={styles.startReadingButton}
+            onClick={handleStartReading}
+            disabled={startingReading}
+          >
+            {startingReading ? "Starting..." : "Start Reading"}
+          </button>
+        )}
+        {showRemoveDialog ? (
+          <RemoveBookDialog
+            bookId={book.id}
+            bookTitle={book.title}
+            onRemoved={() => router.push("/")}
+            onCancel={() => setShowRemoveDialog(false)}
+          />
+        ) : (
+          <button className={styles.removeButton} onClick={() => setShowRemoveDialog(true)}>
+            Remove
+          </button>
+        )}
+      </div>
       <Link href="/" className={styles.backLink}>Back to wishlist</Link>
     </div>
   );

@@ -1,5 +1,6 @@
 import { Book } from "../domain/book";
 import { BookRepository } from "../domain/book-repository";
+import { BookStatus } from "../domain/book-status";
 
 interface AddBookInput {
   title: string;
@@ -48,6 +49,19 @@ export class BookService {
       throw new Error("Book not found");
     }
     return book;
+  }
+
+  async listReadingBooks(): Promise<Book[]> {
+    return this.bookRepository.findByStatus(BookStatus.READING);
+  }
+
+  async startReading(id: number): Promise<Book> {
+    const book = await this.bookRepository.findById(id);
+    if (!book) {
+      throw new Error("Book not found");
+    }
+    const reading = book.startReading();
+    return this.bookRepository.update(reading);
   }
 
   async removeBook(id: number): Promise<void> {
