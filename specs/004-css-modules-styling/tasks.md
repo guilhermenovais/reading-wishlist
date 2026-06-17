@@ -19,7 +19,7 @@
 
 **Purpose**: Create the global design token system that all component styles depend on
 
-- [ ] T001 Create global stylesheet with design tokens in src/app/globals.css (color palette: --color-primary, --color-error, --color-muted, --color-border, --color-background, --color-surface, --color-text with hover variants; spacing scale: --space-1 through --space-7; typography: --line-height, --border-radius; layout: --max-width; base resets for box-sizing, margin, list-style)
+- [x] T001 Create global stylesheet with design tokens in src/app/globals.css (color palette: --color-primary, --color-error, --color-muted, --color-border, --color-background, --color-surface, --color-text with hover variants; spacing scale: --space-1 through --space-7; typography: --line-height, --border-radius; layout: --max-width; base resets for box-sizing, margin, list-style)
 
 ---
 
@@ -27,9 +27,9 @@
 
 **Purpose**: Set up next/font, root layout with persistent navigation, and responsive container — MUST be complete before any user story work begins
 
-- [ ] T002 Configure next/font with Inter font family in src/app/layout.tsx (import from next/font/google, apply font className to html or body element, import globals.css)
-- [ ] T003 [P] Create src/app/layout.module.css with header, nav, navLink, navLinkActive, and container classes (header with bottom border; nav centered with max-width and flex layout; navLink with 44px min-height tap targets and hover/active states; container with responsive padding and max-width at 640px breakpoint)
-- [ ] T004 Update src/app/layout.tsx to add persistent header/nav bar with "Wishlist" (/) and "Search" (/search) links, wrap {children} in content container div, apply layout.module.css classes (depends on T002, T003)
+- [x] T002 Configure next/font with Inter font family in src/app/layout.tsx (import from next/font/google, apply font className to html or body element, import globals.css)
+- [x] T003 [P] Create src/app/layout.module.css with header, nav, navLink, navLinkActive, and container classes (header with bottom border; nav centered with max-width and flex layout; navLink with 44px min-height tap targets and hover/active states; container with responsive padding and max-width at 640px breakpoint)
+- [x] T004 Update src/app/layout.tsx to add persistent header/nav bar with "Wishlist" (/) and "Search" (/search) links, wrap {children} in content container div, apply layout.module.css classes (depends on T002, T003)
 
 **Checkpoint**: Foundation ready — global tokens, font, navigation, and responsive container are in place. All pages now share the consistent shell.
 
@@ -43,9 +43,9 @@
 
 ### Implementation for User Story 1
 
-- [ ] T005 [P] [US1] Update src/app/page.tsx to remove inline style={{}} props (maxWidth, margin, padding) — content is now wrapped by layout container from root layout
-- [ ] T006 [P] [US1] Update src/app/search/page.tsx to remove inline style={{}} props — content is now wrapped by layout container from root layout
-- [ ] T007 [P] [US1] Update src/app/books/[id]/page.tsx to remove inline style={{}} props — content is now wrapped by layout container from root layout
+- [x] T005 [P] [US1] Update src/app/page.tsx to remove inline style={{}} props (maxWidth, margin, padding) — content is now wrapped by layout container from root layout
+- [x] T006 [P] [US1] Update src/app/search/page.tsx to remove inline style={{}} props — content is now wrapped by layout container from root layout
+- [x] T007 [P] [US1] Update src/app/books/[id]/page.tsx to remove inline style={{}} props — content is now wrapped by layout container from root layout
 
 **Checkpoint**: All three pages share the persistent nav and responsive container. No inline layout styles remain on page components.
 
@@ -59,10 +59,10 @@
 
 ### Implementation for User Story 2
 
-- [ ] T008 [P] [US2] Create src/modules/books/presentation/book-list.module.css with list, card, cardContent, bookTitle, bookMeta, badge, removeButton, and emptyState classes (cards with --color-border border and --color-surface background; badge with rounded pill styling; removeButton with --color-error destructive styling; emptyState with centered muted text)
-- [ ] T009 [P] [US2] Create src/modules/books/presentation/search-results.module.css with list, card, bookInfo, bookMeta, importButton, importedState, and alert classes (importButton with --color-primary styling; importedState with muted text and check indicator; alert with --color-error background/border for import errors)
-- [ ] T010 [US2] Update src/modules/books/presentation/book-list.tsx to replace all inline style={{}} props with book-list.module.css classes (import styles, apply styles.card, styles.badge, styles.removeButton, styles.emptyState etc.)
-- [ ] T011 [US2] Update src/modules/books/presentation/search-results.tsx to replace all inline style={{}} props with search-results.module.css classes (import styles, apply styles.card, styles.importButton, styles.importedState, styles.alert etc.)
+- [x] T008 [P] [US2] Create src/modules/books/presentation/book-list.module.css with list, card, cardContent, bookTitle, bookMeta, badge, removeButton, and emptyState classes (cards with --color-border border and --color-surface background; badge with rounded pill styling; removeButton with --color-error destructive styling; emptyState with centered muted text)
+- [x] T009 [P] [US2] Create src/modules/books/presentation/search-results.module.css with list, card, bookInfo, bookMeta, importButton, importedState, and alert classes (importButton with --color-primary styling; importedState with muted text and check indicator; alert with --color-error background/border for import errors)
+- [x] T010 [US2] Update src/modules/books/presentation/book-list.tsx to replace all inline style={{}} props with book-list.module.css classes (import styles, apply styles.card, styles.badge, styles.removeButton, styles.emptyState etc.)
+- [x] T011 [US2] Update src/modules/books/presentation/search-results.tsx to replace all inline style={{}} props with search-results.module.css classes (import styles, apply styles.card, styles.importButton, styles.importedState, styles.alert etc.)
 
 **Checkpoint**: Wishlist and search results display as scannable cards with styled badges and action buttons. No inline styles remain on these components.
 
@@ -76,10 +76,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T012 [P] [US3] Create src/modules/books/presentation/add-book-form.module.css with form, fieldGroup, label, input, submitButton, and alert classes (fieldGroup with stacked label-above-input layout; input full-width with --color-border border, --space-3 padding, --border-radius; submitButton with --color-primary background and 44px min-height; alert with --color-error background/border and --space-4 padding)
-- [ ] T013 [P] [US3] Create src/modules/books/presentation/search-form.module.css with form, searchGroup, input, and searchButton classes (searchGroup as flex row with matching heights; input with flex-grow; searchButton with --color-primary background and 44px min-height; matching border-radius on input and button)
-- [ ] T014 [US3] Update src/modules/books/presentation/add-book-form.tsx to replace all inline style={{}} props with add-book-form.module.css classes (import styles, apply styles.form, styles.fieldGroup, styles.label, styles.input, styles.submitButton, styles.alert)
-- [ ] T015 [US3] Update src/modules/books/presentation/search-form.tsx to replace all inline style={{}} props with search-form.module.css classes (import styles, apply styles.form, styles.searchGroup, styles.input, styles.searchButton)
+- [x] T012 [P] [US3] Create src/modules/books/presentation/add-book-form.module.css with form, fieldGroup, label, input, submitButton, and alert classes (fieldGroup with stacked label-above-input layout; input full-width with --color-border border, --space-3 padding, --border-radius; submitButton with --color-primary background and 44px min-height; alert with --color-error background/border and --space-4 padding)
+- [x] T013 [P] [US3] Create src/modules/books/presentation/search-form.module.css with form, searchGroup, input, and searchButton classes (searchGroup as flex row with matching heights; input with flex-grow; searchButton with --color-primary background and 44px min-height; matching border-radius on input and button)
+- [x] T014 [US3] Update src/modules/books/presentation/add-book-form.tsx to replace all inline style={{}} props with add-book-form.module.css classes (import styles, apply styles.form, styles.fieldGroup, styles.label, styles.input, styles.submitButton, styles.alert)
+- [x] T015 [US3] Update src/modules/books/presentation/search-form.tsx to replace all inline style={{}} props with search-form.module.css classes (import styles, apply styles.form, styles.searchGroup, styles.input, styles.searchButton)
 
 **Checkpoint**: All forms have stacked labels, full-width bordered inputs, 44px-tall buttons, and styled error alerts. No inline styles remain on form components.
 
@@ -93,8 +93,8 @@
 
 ### Implementation for User Story 4
 
-- [ ] T016 [US4] Create src/modules/books/presentation/book-detail.module.css with detailContainer, metadataGrid, metadataKey, metadataValue, removeButton, and backLink classes (metadataGrid as two-column grid or stacked pairs using dl/dt/dd; metadataKey with --color-muted, uppercase, small font; removeButton with --color-error destructive styling and 44px min-height; backLink with arrow indicator)
-- [ ] T017 [US4] Update src/modules/books/presentation/book-detail.tsx to replace all inline style={{}} props with book-detail.module.css classes (import styles, apply styles.detailContainer, styles.metadataGrid, styles.metadataKey, styles.metadataValue, styles.removeButton, styles.backLink)
+- [x] T016 [US4] Create src/modules/books/presentation/book-detail.module.css with detailContainer, metadataGrid, metadataKey, metadataValue, removeButton, and backLink classes (metadataGrid as two-column grid or stacked pairs using dl/dt/dd; metadataKey with --color-muted, uppercase, small font; removeButton with --color-error destructive styling and 44px min-height; backLink with arrow indicator)
+- [x] T017 [US4] Update src/modules/books/presentation/book-detail.tsx to replace all inline style={{}} props with book-detail.module.css classes (import styles, apply styles.detailContainer, styles.metadataGrid, styles.metadataKey, styles.metadataValue, styles.removeButton, styles.backLink)
 
 **Checkpoint**: Book detail page displays metadata in a clean key-value layout with destructive Remove button and clear back navigation. No inline styles remain.
 
@@ -108,8 +108,8 @@
 
 ### Implementation for User Story 5
 
-- [ ] T018 [US5] Create src/modules/books/presentation/remove-book-dialog.module.css with overlay, dialog, message, actions, confirmButton, and cancelButton classes (overlay with position:fixed, inset:0, rgba(0,0,0,0.5) backdrop, flex centering, z-index layering; dialog with --color-background, --border-radius, --space-6 padding, max-width; confirmButton with --color-error destructive styling and 44px min-height; cancelButton with neutral border styling and 44px min-height)
-- [ ] T019 [US5] Update src/modules/books/presentation/remove-book-dialog.tsx to wrap dialog content in fixed-position overlay div, replace all inline style={{}} props with remove-book-dialog.module.css classes, add onClick handler on overlay for backdrop dismissal with stopPropagation on dialog content div
+- [x] T018 [US5] Create src/modules/books/presentation/remove-book-dialog.module.css with overlay, dialog, message, actions, confirmButton, and cancelButton classes (overlay with position:fixed, inset:0, rgba(0,0,0,0.5) backdrop, flex centering, z-index layering; dialog with --color-background, --border-radius, --space-6 padding, max-width; confirmButton with --color-error destructive styling and 44px min-height; cancelButton with neutral border styling and 44px min-height)
+- [x] T019 [US5] Update src/modules/books/presentation/remove-book-dialog.tsx to wrap dialog content in fixed-position overlay div, replace all inline style={{}} props with remove-book-dialog.module.css classes, add onClick handler on overlay for backdrop dismissal with stopPropagation on dialog content div
 
 **Checkpoint**: Remove dialog renders as a proper centered modal with backdrop overlay. Destructive and neutral button styles are clearly distinct. Backdrop click dismisses the dialog.
 
@@ -119,8 +119,8 @@
 
 **Purpose**: Final validation across all user stories
 
-- [ ] T020 Verify all 6 presentation components (add-book-form, book-detail, book-list, remove-book-dialog, search-form, search-results) have zero inline style={{}} props remaining
-- [ ] T021 Run quickstart.md manual validation — verify all 7 check items pass across viewports (320px, 640px, 1024px, 1440px): global layout and navigation, responsive design, wishlist cards, forms, search, book detail, modal dialog
+- [x] T020 Verify all 6 presentation components (add-book-form, book-detail, book-list, remove-book-dialog, search-form, search-results) have zero inline style={{}} props remaining
+- [x] T021 Run quickstart.md manual validation — verify all 7 check items pass across viewports (320px, 640px, 1024px, 1440px): global layout and navigation, responsive design, wishlist cards, forms, search, book detail, modal dialog
 
 ---
 
