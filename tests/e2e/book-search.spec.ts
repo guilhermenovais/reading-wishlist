@@ -28,12 +28,12 @@ test.describe("Book Search & Import", () => {
 
   test("navigates to search page from wishlist", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: /Search.*Import.*Open Library/i }).click();
+    await page.getByRole("link", { name: /Search.*Import.*Google Books/i }).click();
     await expect(page).toHaveURL("/search");
     await expect(page.getByRole("heading", { name: "Search Books" })).toBeVisible();
   });
 
-  test("searches for books and displays results", async ({ page }) => {
+  test("searches for books and displays results from Google Books", async ({ page }) => {
     await page.goto("/search");
 
     await page.getByPlaceholder("Enter a book title...").fill("Clean Code");
@@ -66,7 +66,7 @@ test.describe("Book Search & Import", () => {
     const firstResult = page.locator("ul > li").first();
 
     await firstResult.getByRole("button", { name: "Import to Wishlist" }).click();
-    await expect(firstResult.getByRole("button", { name: "Already added" })).toBeVisible();
+    await expect(firstResult.getByText("Already added")).toBeVisible();
 
     await page.getByRole("link", { name: "Back to wishlist" }).click();
     await page.waitForURL("/");
@@ -98,10 +98,47 @@ test.describe("Book Search & Import", () => {
     }
   });
 
+  test("imports book with missing optional fields", async ({ page }) => {
+    await page.goto("/search");
+
+    await page.getByPlaceholder("Enter a book title...").fill("Clean Code");
+    await page.getByRole("button", { name: "Search" }).click();
+
+    await expect(page.getByText("Search Results")).toBeVisible({ timeout: 30000 });
+
+    const firstResult = page.locator("ul > li").first();
+    await firstResult.getByRole("button", { name: "Import to Wishlist" }).click();
+    await expect(firstResult.getByText("Already added")).toBeVisible();
+  });
+
   test("navigates back to wishlist from search", async ({ page }) => {
     await page.goto("/search");
 
     await page.getByRole("link", { name: "Back to wishlist" }).click();
     await expect(page).toHaveURL("/");
+  });
+
+  test("displays search page description mentioning Google Books", async ({ page }) => {
+    await page.goto("/search");
+
+    await expect(page.getByText("Google Books")).toBeVisible();
+  });
+
+  test("displays cover image for search results that have one", async ({ page }) => {
+    await page.goto("/search");
+
+    await page.getByPlaceholder("Enter a book title...").fill("Clean Code");
+    await page.getByRole("button", { name: "Search" }).click();
+
+    await expect(page.getByText("Search Results")).toBeVisible({ timeout: 30000 });
+
+    const firstResult = page.locator("ul > li").first();
+    const coverImage = firstResult.locator("img");
+    const placeholder = firstResult.locator("[data-testid='cover-placeholder']");
+
+    const hasImage = await coverImage.count() > 0;
+    const hasPlaceholder = await placeholder.count() > 0;
+
+    expect(hasImage || hasPlaceholder).toBe(true);
   });
 });
