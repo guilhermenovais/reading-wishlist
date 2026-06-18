@@ -8,6 +8,7 @@ interface SearchResultItem {
   author: string;
   publicationYear: number | null;
   isbn: string | null;
+  coverImageUrl: string | null;
 }
 
 interface SearchResultsProps {
@@ -81,6 +82,17 @@ export function SearchResults({ results, error, hasSearched }: SearchResultsProp
 
           return (
             <li key={result.isbn ?? index} className={styles.card}>
+              {result.coverImageUrl ? (
+                <img
+                  src={result.coverImageUrl}
+                  alt={`Cover of ${result.title}`}
+                  className={styles.coverImage}
+                />
+              ) : (
+                <div className={styles.coverPlaceholder} data-testid="cover-placeholder">
+                  No cover
+                </div>
+              )}
               <div className={styles.bookInfo}>
                 <strong>{result.title}</strong>
                 {result.author && <> by {result.author}</>}
