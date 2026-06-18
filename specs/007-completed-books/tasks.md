@@ -17,7 +17,7 @@
 
 **Purpose**: Database schema changes required by all subsequent phases
 
-- [ ] T001 Add COMPLETED enum value, completionDate and coverImageUrl columns to Book via Prisma migration in prisma/schema.prisma
+- [x] T001 Add COMPLETED enum value, completionDate and coverImageUrl columns to Book via Prisma migration in prisma/schema.prisma
 
 ---
 
@@ -27,12 +27,12 @@
 
 **Warning**: No user story work can begin until this phase is complete
 
-- [ ] T002 Add COMPLETED value to BookStatus enum in src/modules/books/domain/book-status.ts
-- [ ] T003 Add completionDate and coverImageUrl properties to Book domain entity in src/modules/books/domain/book.ts
-- [ ] T004 Write integration tests for completionDate and coverImageUrl persistence in tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts
-- [ ] T005 Update toBook() mapper, update(), and save() to include completionDate and coverImageUrl in src/modules/books/infrastructure/prisma-book-repository.ts
-- [ ] T006 [P] Update importBook() to accept and persist coverImageUrl in src/modules/books/application/book-service.ts and src/app/api/books/route.ts
-- [ ] T007 [P] Add completionDate and coverImageUrl to GET response in src/app/api/books/[id]/route.ts
+- [x] T002 Add COMPLETED value to BookStatus enum in src/modules/books/domain/book-status.ts
+- [x] T003 Add completionDate and coverImageUrl properties to Book domain entity in src/modules/books/domain/book.ts
+- [x] T004 Write integration tests for completionDate and coverImageUrl persistence in tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts
+- [x] T005 Update toBook() mapper, update(), and save() to include completionDate and coverImageUrl in src/modules/books/infrastructure/prisma-book-repository.ts
+- [x] T006 [P] Update importBook() to accept and persist coverImageUrl in src/modules/books/application/book-service.ts and src/app/api/books/route.ts
+- [x] T007 [P] Add completionDate and coverImageUrl to GET response in src/app/api/books/[id]/route.ts
 
 **Checkpoint**: Foundation ready — domain entity has new fields, repository persists them, import stores cover images, detail API returns new fields. User story implementation can now begin.
 
@@ -48,16 +48,16 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T008 [P] [US1] Write unit tests for markAsCompleted() domain method (status validation, date constraints, immutable return) in tests/unit/modules/books/domain/book-mark-completed.test.ts
-- [ ] T009 [P] [US1] Write unit tests for bookService.markAsCompleted() (fetch, delegate to domain, persist) in tests/unit/modules/books/application/book-service.test.ts
+- [x] T008 [P] [US1] Write unit tests for markAsCompleted() domain method (status validation, date constraints, immutable return) in tests/unit/modules/books/domain/book-mark-completed.test.ts
+- [x] T009 [P] [US1] Write unit tests for bookService.markAsCompleted() (fetch, delegate to domain, persist) in tests/unit/modules/books/application/book-service.test.ts
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Implement markAsCompleted(completionDate) domain method with status and date validation in src/modules/books/domain/book.ts
-- [ ] T011 [US1] Implement markAsCompleted(id, completionDate) service method in src/modules/books/application/book-service.ts
-- [ ] T012 [US1] Create PATCH endpoint with request validation and error responses in src/app/api/books/[id]/mark-completed/route.ts
-- [ ] T013 [P] [US1] Create MarkCompletedDialog component with native dialog element and date input (min=readingStartDate, max=today) in src/modules/books/presentation/mark-completed-dialog.tsx
-- [ ] T014 [US1] Add "Mark as Completed" button (visible only for READING status) and wire MarkCompletedDialog in src/modules/books/presentation/book-detail.tsx
+- [x] T010 [US1] Implement markAsCompleted(completionDate) domain method with status and date validation in src/modules/books/domain/book.ts
+- [x] T011 [US1] Implement markAsCompleted(id, completionDate) service method in src/modules/books/application/book-service.ts
+- [x] T012 [US1] Create PATCH endpoint with request validation and error responses in src/app/api/books/[id]/mark-completed/route.ts
+- [x] T013 [P] [US1] Create MarkCompletedDialog component with native dialog element and date input (min=readingStartDate, max=today) in src/modules/books/presentation/mark-completed-dialog.tsx
+- [x] T014 [US1] Add "Mark as Completed" button (visible only for READING status) and wire MarkCompletedDialog in src/modules/books/presentation/book-detail.tsx
 
 **Checkpoint**: User Story 1 fully functional — a READING book can be marked as completed with a validated date. Run unit tests to confirm domain rules and service logic pass.
 
@@ -73,15 +73,15 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T015 [P] [US2] Write unit test for listCompletedBooks() service method in tests/unit/modules/books/application/book-service.test.ts
+- [x] T015 [P] [US2] Write unit test for listCompletedBooks() service method in tests/unit/modules/books/application/book-service.test.ts
 
 ### Implementation for User Story 2
 
-- [ ] T016 [US2] Implement listCompletedBooks() service method in src/modules/books/application/book-service.ts
-- [ ] T017 [US2] Add COMPLETED status filter with completionDate descending sort to GET /api/books in src/app/api/books/route.ts
-- [ ] T018 [P] [US2] Create CompletedBookList component with cover thumbnails, title, author, completion date, and empty state in src/modules/books/presentation/completed-book-list.tsx
-- [ ] T019 [US2] Create Completed page that fetches and displays completed books in src/app/completed/page.tsx
-- [ ] T020 [US2] Add "Completed" navigation link between "Reading" and "Search" in src/app/layout.tsx
+- [x] T016 [US2] Implement listCompletedBooks() service method in src/modules/books/application/book-service.ts
+- [x] T017 [US2] Add COMPLETED status filter with completionDate descending sort to GET /api/books in src/app/api/books/route.ts
+- [x] T018 [P] [US2] Create CompletedBookList component with cover thumbnails, title, author, completion date, and empty state in src/modules/books/presentation/completed-book-list.tsx
+- [x] T019 [US2] Create Completed page that fetches and displays completed books in src/app/completed/page.tsx
+- [x] T020 [US2] Add "Completed" navigation link between "Reading" and "Search" in src/app/layout.tsx
 
 **Checkpoint**: User Story 2 fully functional — Completed page accessible from nav, shows all completed books sorted by completion date descending, links to detail pages.
 
@@ -95,7 +95,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T021 [US3] Display completion date in metadata section (only for COMPLETED status) in src/modules/books/presentation/book-detail.tsx
+- [x] T021 [US3] Display completion date in metadata section (only for COMPLETED status) in src/modules/books/presentation/book-detail.tsx
 
 **Checkpoint**: All user stories independently functional — mark as completed, view completed list, and see completion date on detail page.
 
@@ -105,8 +105,8 @@
 
 **Purpose**: End-to-end validation across all user stories
 
-- [ ] T022 Write E2E tests covering mark-as-completed flow, completed page navigation, and completion date display in tests/e2e/completed-books.spec.ts
-- [ ] T023 Run quickstart.md validation (migrate, start app, walk through feature flow)
+- [x] T022 Write E2E tests covering mark-as-completed flow, completed page navigation, and completion date display in tests/e2e/completed-books.spec.ts
+- [x] T023 Run quickstart.md validation (migrate, start app, walk through feature flow)
 
 ---
 
