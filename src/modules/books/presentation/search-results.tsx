@@ -48,6 +48,7 @@ export function SearchResults({ results, error, hasSearched }: SearchResultsProp
           author: result.author || "Unknown Author",
           isbn: result.isbn ?? undefined,
           publicationYear: result.publicationYear ?? undefined,
+          coverImageUrl: result.coverImageUrl ?? undefined,
         }),
       });
 
