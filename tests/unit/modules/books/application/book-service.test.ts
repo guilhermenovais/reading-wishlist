@@ -1,13 +1,31 @@
 import { BookService } from "@/modules/books/application/book-service";
 import { BookStatus } from "@/modules/books/domain/book-status";
+import { CoverImageStorage } from "@/modules/books/domain/cover-image-storage";
 import { InMemoryBookRepository } from "../../../../helpers/in-memory-book-repository";
+
+class FakeCoverImageStorage implements CoverImageStorage {
+  savedFiles: { bookId: number; mimeType: string }[] = [];
+  deletedUrls: string[] = [];
+
+  async save(bookId: number, _fileBuffer: Buffer, mimeType: string): Promise<string> {
+    this.savedFiles.push({ bookId, mimeType });
+    const ext = mimeType.split("/")[1] === "jpeg" ? "jpg" : mimeType.split("/")[1]!;
+    return `/uploads/covers/${bookId}-123456.${ext}`;
+  }
+
+  async delete(imageUrl: string): Promise<void> {
+    this.deletedUrls.push(imageUrl);
+  }
+}
 
 let service: BookService;
 let repository: InMemoryBookRepository;
+let coverStorage: FakeCoverImageStorage;
 
 beforeEach(() => {
   repository = new InMemoryBookRepository();
-  service = new BookService(repository);
+  coverStorage = new FakeCoverImageStorage();
+  service = new BookService(repository, coverStorage);
 });
 
 describe("BookService.addBook", () => {
@@ -141,6 +159,94 @@ describe("BookService.listReadingBooks", () => {
   });
 });
 
+describe("BookService.uploadCover", () => {
+  const jpegMagicBytes = Buffer.from([0xFF, 0xD8, 0xFF, 0xE0]);
+  const pngMagicBytes = Buffer.from([0x89, 0x50, 0x4E, 0x47]);
+  const webpMagicBytes = Buffer.from("RIFF\x00\x00\x00\x00WEBP");
+
+  function createValidJpeg(size = 1024): Buffer {
+    const buf = Buffer.alloc(size);
+    jpegMagicBytes.copy(buf);
+    return buf;
+  }
+
+  it("uploads a valid JPEG cover image", async () => {
+    const book = await service.addBook({ title: "Test", author: "Author" });
+    const buffer = createValidJpeg();
+
+    const updated = await service.uploadCover(book.id!, buffer, "image/jpeg");
+
+    expect(updated.coverImageUrl).toBe(`/uploads/covers/${book.id}-123456.jpg`);
+    expect(coverStorage.savedFiles).toHaveLength(1);
+  });
+
+  it("uploads a valid PNG cover image", async () => {
+    const book = await service.addBook({ title: "Test", author: "Author" });
+    const buf = Buffer.alloc(1024);
+    pngMagicBytes.copy(buf);
+
+    const updated = await service.uploadCover(book.id!, buf, "image/png");
+
+    expect(updated.coverImageUrl).toContain(".png");
+  });
+
+  it("uploads a valid WebP cover image", async () => {
+    const book = await service.addBook({ title: "Test", author: "Author" });
+    const buf = Buffer.alloc(1024);
+    webpMagicBytes.copy(buf);
+
+    const updated = await service.uploadCover(book.id!, buf, "image/webp");
+
+    expect(updated.coverImageUrl).toContain(".webp");
+  });
+
+  it("rejects invalid MIME type", async () => {
+    const book = await service.addBook({ title: "Test", author: "Author" });
+    const buffer = Buffer.alloc(1024);
+
+    await expect(
+      service.uploadCover(book.id!, buffer, "image/gif")
+    ).rejects.toThrow("Invalid file type. Accepted formats: JPEG, PNG, WebP");
+  });
+
+  it("rejects file exceeding 5 MB", async () => {
+    const book = await service.addBook({ title: "Test", author: "Author" });
+    const buffer = Buffer.alloc(5 * 1024 * 1024 + 1);
+    jpegMagicBytes.copy(buffer);
+
+    await expect(
+      service.uploadCover(book.id!, buffer, "image/jpeg")
+    ).rejects.toThrow("File exceeds maximum size of 5 MB");
+  });
+
+  it("rejects file with invalid magic bytes", async () => {
+    const book = await service.addBook({ title: "Test", author: "Author" });
+    const buffer = Buffer.from("not an image");
+
+    await expect(
+      service.uploadCover(book.id!, buffer, "image/jpeg")
+    ).rejects.toThrow("File is not a valid image");
+  });
+
+  it("deletes old cover when uploading a new one", async () => {
+    const book = await service.addBook({ title: "Test", author: "Author" });
+    const buffer = createValidJpeg();
+    await service.uploadCover(book.id!, buffer, "image/jpeg");
+
+    await service.uploadCover(book.id!, buffer, "image/jpeg");
+
+    expect(coverStorage.deletedUrls).toHaveLength(1);
+  });
+
+  it("throws for non-existent book", async () => {
+    const buffer = createValidJpeg();
+
+    await expect(
+      service.uploadCover(999, buffer, "image/jpeg")
+    ).rejects.toThrow("Book not found");
+  });
+});
+
 describe("BookService.importBook", () => {
   it("imports a book with all fields", async () => {
     const book = await service.importBook({
@@ -189,5 +295,26 @@ describe("BookService.importBook", () => {
     });
 
     expect(book.publicationYear).toBeNull();
+  });
+
+  it("imports a book with coverImageUrl", async () => {
+    const book = await service.importBook({
+      title: "Clean Code",
+      author: "Robert C. Martin",
+      isbn: "9780132350884",
+      publicationYear: 2008,
+      coverImageUrl: "https://books.google.com/cover.jpg",
+    });
+
+    expect(book.coverImageUrl).toBe("https://books.google.com/cover.jpg");
+  });
+
+  it("imports a book without coverImageUrl (null)", async () => {
+    const book = await service.importBook({
+      title: "Some Book",
+      author: "Author",
+    });
+
+    expect(book.coverImageUrl).toBeNull();
   });
 });

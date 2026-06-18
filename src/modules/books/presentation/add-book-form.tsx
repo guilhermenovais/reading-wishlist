@@ -10,6 +10,7 @@ interface AddBookFormProps {
 export function AddBookForm({ onBookAdded }: AddBookFormProps) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
+  const [coverFile, setCoverFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -31,8 +32,26 @@ export function AddBookForm({ onBookAdded }: AddBookFormProps) {
         return;
       }
 
+      const book = await response.json();
+
+      if (coverFile) {
+        const formData = new FormData();
+        formData.append("cover", coverFile);
+        const coverResponse = await fetch(`/api/books/${book.id}/cover`, {
+          method: "POST",
+          body: formData,
+        });
+        if (!coverResponse.ok) {
+          const coverData = await coverResponse.json();
+          setError(coverData.error ?? "Book added but cover upload failed");
+          onBookAdded();
+          return;
+        }
+      }
+
       setTitle("");
       setAuthor("");
+      setCoverFile(null);
       onBookAdded();
     } catch {
       setError("Failed to add book");
@@ -64,6 +83,16 @@ export function AddBookForm({ onBookAdded }: AddBookFormProps) {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
           required
+          className={styles.input}
+        />
+      </div>
+      <div className={styles.fieldGroup}>
+        <label htmlFor="cover" className={styles.label}>Cover Image (optional)</label>
+        <input
+          id="cover"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
           className={styles.input}
         />
       </div>
