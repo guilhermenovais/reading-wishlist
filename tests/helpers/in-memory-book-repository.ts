@@ -15,6 +15,8 @@ export class InMemoryBookRepository implements BookRepository {
       isbn: book.isbn,
       publicationYear: book.publicationYear,
       readingStartDate: book.readingStartDate,
+      completionDate: book.completionDate,
+      coverImageUrl: book.coverImageUrl,
       createdAt: new Date(),
     });
     this.books.push(saved);
