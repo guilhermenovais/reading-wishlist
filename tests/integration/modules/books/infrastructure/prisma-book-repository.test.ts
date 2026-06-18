@@ -174,6 +174,57 @@ describe("PrismaBookRepository", () => {
     });
   });
 
+  describe("persist and retrieve completionDate and coverImageUrl", () => {
+    it("persists completionDate after marking as completed", async () => {
+      const book = Book.create({ title: "Clean Code", author: "Robert C. Martin" });
+      const saved = await repository.save(book);
+      const reading = saved.startReading();
+      const updated = await repository.update(reading);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const completed = updated.markAsCompleted(today);
+      const completedSaved = await repository.update(completed);
+
+      const found = await repository.findById(completedSaved.id!);
+
+      expect(found!.status).toBe(BookStatus.COMPLETED);
+      expect(found!.completionDate).toBeInstanceOf(Date);
+    });
+
+    it("persists coverImageUrl from imported book", async () => {
+      const book = Book.createFromImport({
+        title: "Clean Code",
+        author: "Robert C. Martin",
+        isbn: "9780132350884",
+        publicationYear: 2008,
+        coverImageUrl: "https://books.google.com/books/content?id=xxx",
+      });
+      const saved = await repository.save(book);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.coverImageUrl).toBe("https://books.google.com/books/content?id=xxx");
+    });
+
+    it("returns null coverImageUrl for books without cover image", async () => {
+      const book = Book.create({ title: "Manual Book", author: "Author" });
+      const saved = await repository.save(book);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.coverImageUrl).toBeNull();
+    });
+
+    it("returns null completionDate for non-completed books", async () => {
+      const book = Book.create({ title: "Manual Book", author: "Author" });
+      const saved = await repository.save(book);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.completionDate).toBeNull();
+    });
+  });
+
   describe("persist and retrieve isbn/publicationYear", () => {
     it("persists and retrieves isbn and publicationYear", async () => {
       const book = Book.createFromImport({
