@@ -20,5 +20,6 @@ model Book {
   isbn            String?
   publicationYear  Int?
   readingStartDate DateTime?
+  coverImageUrl    String?
   createdAt        DateTime   @default(now())
 }

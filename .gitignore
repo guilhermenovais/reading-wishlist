@@ -44,3 +44,7 @@ prisma/migrations/**/migration_lock.toml
 .idea/
 *.swp
 *.tmp
+
+# uploaded files
+public/uploads/covers/*
+!public/uploads/covers/.gitkeep
