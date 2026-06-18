@@ -11,6 +11,8 @@ describe("Book.startReading", () => {
       isbn: "978-0132350884",
       publicationYear: 2008,
       readingStartDate: null,
+      completionDate: null,
+      coverImageUrl: null,
       createdAt: new Date("2026-01-01"),
     });
   }
@@ -67,6 +69,8 @@ describe("Book.startReading", () => {
       isbn: null,
       publicationYear: null,
       readingStartDate: new Date(),
+      completionDate: null,
+      coverImageUrl: null,
       createdAt: new Date(),
     });
 

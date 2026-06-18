@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const service = getBookService();
-    const isImport = isbn !== undefined || publicationYear !== undefined;
+    const isImport = isbn !== undefined || publicationYear !== undefined || coverImageUrl !== undefined;
     const book = isImport
       ? await service.importBook({ title, author, isbn, publicationYear, coverImageUrl })
       : await service.addBook({ title, author });

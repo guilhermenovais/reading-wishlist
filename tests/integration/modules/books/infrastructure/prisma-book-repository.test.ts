@@ -174,7 +174,7 @@ describe("PrismaBookRepository", () => {
     });
   });
 
-  describe("persist and retrieve completionDate and coverImageUrl", () => {
+  describe("completionDate persistence", () => {
     it("persists completionDate after marking as completed", async () => {
       const book = Book.create({ title: "Clean Code", author: "Robert C. Martin" });
       const saved = await repository.save(book);
@@ -191,30 +191,6 @@ describe("PrismaBookRepository", () => {
       expect(found!.completionDate).toBeInstanceOf(Date);
     });
 
-    it("persists coverImageUrl from imported book", async () => {
-      const book = Book.createFromImport({
-        title: "Clean Code",
-        author: "Robert C. Martin",
-        isbn: "9780132350884",
-        publicationYear: 2008,
-        coverImageUrl: "https://books.google.com/books/content?id=xxx",
-      });
-      const saved = await repository.save(book);
-
-      const found = await repository.findById(saved.id!);
-
-      expect(found!.coverImageUrl).toBe("https://books.google.com/books/content?id=xxx");
-    });
-
-    it("returns null coverImageUrl for books without cover image", async () => {
-      const book = Book.create({ title: "Manual Book", author: "Author" });
-      const saved = await repository.save(book);
-
-      const found = await repository.findById(saved.id!);
-
-      expect(found!.coverImageUrl).toBeNull();
-    });
-
     it("returns null completionDate for non-completed books", async () => {
       const book = Book.create({ title: "Manual Book", author: "Author" });
       const saved = await repository.save(book);
@@ -222,6 +198,44 @@ describe("PrismaBookRepository", () => {
       const found = await repository.findById(saved.id!);
 
       expect(found!.completionDate).toBeNull();
+    });
+  });
+
+  describe("coverImageUrl persistence", () => {
+    it("persists a book with coverImageUrl", async () => {
+      const book = Book.createFromImport({
+        title: "Clean Code",
+        author: "Robert C. Martin",
+        isbn: "9780132350884",
+        publicationYear: 2008,
+        coverImageUrl: "https://books.google.com/cover.jpg",
+      });
+      const saved = await repository.save(book);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.coverImageUrl).toBe("https://books.google.com/cover.jpg");
+    });
+
+    it("persists a book without coverImageUrl as null", async () => {
+      const book = Book.create({ title: "My Book", author: "Author" });
+      const saved = await repository.save(book);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.coverImageUrl).toBeNull();
+    });
+
+    it("persists updated coverImageUrl", async () => {
+      const book = Book.create({ title: "My Book", author: "Author" });
+      const saved = await repository.save(book);
+
+      const withCover = saved.withCoverImage("/uploads/covers/1-123456.jpg");
+      await repository.update(withCover);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.coverImageUrl).toBe("/uploads/covers/1-123456.jpg");
     });
   });
 

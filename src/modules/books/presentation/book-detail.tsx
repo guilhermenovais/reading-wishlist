@@ -91,7 +91,18 @@ export function BookDetail({ bookId }: BookDetailProps) {
 
   return (
     <div className={styles.detailContainer}>
-      <h2>{book.title}</h2>
+      <div className={styles.header}>
+        {book.coverImageUrl ? (
+          <img
+            src={book.coverImageUrl}
+            alt={`Cover of ${book.title}`}
+            className={styles.coverImage}
+          />
+        ) : (
+          <div className={styles.coverPlaceholder}>No cover</div>
+        )}
+        <h2>{book.title}</h2>
+      </div>
       <dl className={styles.metadataGrid}>
         <dt className={styles.metadataKey}>Author</dt>
         <dd className={styles.metadataValue}>{book.author}</dd>
@@ -158,7 +169,7 @@ export function BookDetail({ bookId }: BookDetailProps) {
           bookId={book.id}
           readingStartDate={book.readingStartDate}
           onCompleted={(data) => {
-            setBook(data as BookData);
+            setBook(data as unknown as BookData);
             setShowMarkCompletedDialog(false);
           }}
           onCancel={() => setShowMarkCompletedDialog(false)}

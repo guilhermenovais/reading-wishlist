@@ -181,4 +181,19 @@ export class Book {
       createdAt: this.createdAt!,
     });
   }
+
+  withCoverImage(coverImageUrl: string): Book {
+    return Book.reconstitute({
+      id: this.id!,
+      title: this.title,
+      author: this.author,
+      status: this.status,
+      isbn: this.isbn,
+      publicationYear: this.publicationYear,
+      readingStartDate: this.readingStartDate,
+      completionDate: this.completionDate,
+      coverImageUrl,
+      createdAt: this.createdAt!,
+    });
+  }
 }
