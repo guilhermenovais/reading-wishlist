@@ -12,6 +12,7 @@ interface ImportBookInput {
   author: string;
   isbn?: string;
   publicationYear?: number;
+  coverImageUrl?: string;
 }
 
 export class BookService {
@@ -35,6 +36,7 @@ export class BookService {
       author: input.author,
       isbn: input.isbn,
       publicationYear: input.publicationYear,
+      coverImageUrl: input.coverImageUrl,
     });
     return this.bookRepository.save(book);
   }
@@ -62,6 +64,19 @@ export class BookService {
     }
     const reading = book.startReading();
     return this.bookRepository.update(reading);
+  }
+
+  async markAsCompleted(id: number, completionDate: Date): Promise<Book> {
+    const book = await this.bookRepository.findById(id);
+    if (!book) {
+      throw new Error("Book not found");
+    }
+    const completed = book.markAsCompleted(completionDate);
+    return this.bookRepository.update(completed);
+  }
+
+  async listCompletedBooks(): Promise<Book[]> {
+    return this.bookRepository.findByStatus(BookStatus.COMPLETED);
   }
 
   async removeBook(id: number): Promise<void> {

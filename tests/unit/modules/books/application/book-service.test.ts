@@ -141,6 +141,54 @@ describe("BookService.listReadingBooks", () => {
   });
 });
 
+describe("BookService.markAsCompleted", () => {
+  it("transitions a reading book to completed", async () => {
+    const book = await service.addBook({ title: "Clean Code", author: "Robert C. Martin" });
+    await service.startReading(book.id!);
+    const now = new Date();
+
+    const completed = await service.markAsCompleted(book.id!, now);
+
+    expect(completed.status).toBe(BookStatus.COMPLETED);
+    expect(completed.completionDate).toEqual(now);
+  });
+
+  it("throws for non-existent book", async () => {
+    await expect(service.markAsCompleted(999, new Date())).rejects.toThrow("Book not found");
+  });
+
+  it("throws when book is not in reading status", async () => {
+    const book = await service.addBook({ title: "Clean Code", author: "Robert C. Martin" });
+
+    await expect(service.markAsCompleted(book.id!, new Date())).rejects.toThrow(
+      "Only reading books can be marked as completed"
+    );
+  });
+});
+
+describe("BookService.listCompletedBooks", () => {
+  it("returns only completed books", async () => {
+    const book1 = await service.addBook({ title: "Book A", author: "Author A" });
+    await service.addBook({ title: "Book B", author: "Author B" });
+    await service.startReading(book1.id!);
+    await service.markAsCompleted(book1.id!, new Date());
+
+    const completedBooks = await service.listCompletedBooks();
+
+    expect(completedBooks).toHaveLength(1);
+    expect(completedBooks[0]!.title).toBe("Book A");
+    expect(completedBooks[0]!.status).toBe(BookStatus.COMPLETED);
+  });
+
+  it("returns empty array when no books are completed", async () => {
+    await service.addBook({ title: "Book A", author: "Author A" });
+
+    const completedBooks = await service.listCompletedBooks();
+
+    expect(completedBooks).toEqual([]);
+  });
+});
+
 describe("BookService.importBook", () => {
   it("imports a book with all fields", async () => {
     const book = await service.importBook({

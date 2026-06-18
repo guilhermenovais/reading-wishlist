@@ -14,6 +14,8 @@ export class PrismaBookRepository implements BookRepository {
     isbn: string | null;
     publicationYear: number | null;
     readingStartDate: Date | null;
+    completionDate: Date | null;
+    coverImageUrl: string | null;
     createdAt: Date;
   }): Book {
     return Book.reconstitute({
@@ -24,6 +26,8 @@ export class PrismaBookRepository implements BookRepository {
       isbn: record.isbn,
       publicationYear: record.publicationYear,
       readingStartDate: record.readingStartDate,
+      completionDate: record.completionDate,
+      coverImageUrl: record.coverImageUrl,
       createdAt: record.createdAt,
     });
   }
@@ -36,6 +40,7 @@ export class PrismaBookRepository implements BookRepository {
         status: book.status,
         isbn: book.isbn,
         publicationYear: book.publicationYear,
+        coverImageUrl: book.coverImageUrl,
       },
     });
 
@@ -52,6 +57,8 @@ export class PrismaBookRepository implements BookRepository {
         isbn: book.isbn,
         publicationYear: book.publicationYear,
         readingStartDate: book.readingStartDate,
+        completionDate: book.completionDate,
+        coverImageUrl: book.coverImageUrl,
       },
     });
 
@@ -93,7 +100,10 @@ export class PrismaBookRepository implements BookRepository {
   async findByStatus(status: BookStatus): Promise<Book[]> {
     const records = await this.prisma.book.findMany({
       where: { status },
-      orderBy: { id: "asc" },
+      orderBy:
+        status === BookStatus.COMPLETED
+          ? { completionDate: "desc" }
+          : { id: "asc" },
     });
 
     return records.map((record) => this.toBook(record));

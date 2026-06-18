@@ -11,10 +11,14 @@ export async function GET(request: NextRequest) {
   const service = getBookService();
   const status = request.nextUrl.searchParams.get("status");
 
-  const books =
-    status === "READING"
-      ? await service.listReadingBooks()
-      : await service.listBooks();
+  let books;
+  if (status === "READING") {
+    books = await service.listReadingBooks();
+  } else if (status === "COMPLETED") {
+    books = await service.listCompletedBooks();
+  } else {
+    books = await service.listBooks();
+  }
 
   return NextResponse.json({
     books: books.map((book) => ({
@@ -25,6 +29,8 @@ export async function GET(request: NextRequest) {
       isbn: book.isbn,
       publicationYear: book.publicationYear,
       readingStartDate: book.readingStartDate,
+      completionDate: book.completionDate,
+      coverImageUrl: book.coverImageUrl,
       createdAt: book.createdAt,
     })),
   });
@@ -32,11 +38,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { title, author, isbn, publicationYear } = body as {
+  const { title, author, isbn, publicationYear, coverImageUrl } = body as {
     title?: string;
     author?: string;
     isbn?: string;
     publicationYear?: number;
+    coverImageUrl?: string;
   };
 
   if (!title || !title.trim()) {
@@ -51,7 +58,7 @@ export async function POST(request: NextRequest) {
     const service = getBookService();
     const isImport = isbn !== undefined || publicationYear !== undefined;
     const book = isImport
-      ? await service.importBook({ title, author, isbn, publicationYear })
+      ? await service.importBook({ title, author, isbn, publicationYear, coverImageUrl })
       : await service.addBook({ title, author });
 
     return NextResponse.json(
@@ -63,6 +70,8 @@ export async function POST(request: NextRequest) {
         isbn: book.isbn,
         publicationYear: book.publicationYear,
         readingStartDate: book.readingStartDate,
+        completionDate: book.completionDate,
+        coverImageUrl: book.coverImageUrl,
         createdAt: book.createdAt,
       },
       { status: 201 }

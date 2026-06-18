@@ -27,6 +27,9 @@ export default function RootLayout({
             <Link href="/reading" className={styles.navLink}>
               Reading
             </Link>
+            <Link href="/completed" className={styles.navLink}>
+              Completed
+            </Link>
             <Link href="/search" className={styles.navLink}>
               Search
             </Link>

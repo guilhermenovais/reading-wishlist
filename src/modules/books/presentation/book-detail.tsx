@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { RemoveBookDialog } from "./remove-book-dialog";
+import { MarkCompletedDialog } from "./mark-completed-dialog";
 import styles from "./book-detail.module.css";
 
 interface BookData {
@@ -14,6 +15,8 @@ interface BookData {
   isbn: string | null;
   publicationYear: number | null;
   readingStartDate: string | null;
+  completionDate: string | null;
+  coverImageUrl: string | null;
   createdAt: string;
 }
 
@@ -27,6 +30,7 @@ export function BookDetail({ bookId }: BookDetailProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showRemoveDialog, setShowRemoveDialog] = useState(false);
+  const [showMarkCompletedDialog, setShowMarkCompletedDialog] = useState(false);
   const [startingReading, setStartingReading] = useState(false);
 
   useEffect(() => {
@@ -101,6 +105,14 @@ export function BookDetail({ bookId }: BookDetailProps) {
             </dd>
           </>
         )}
+        {book.completionDate && (
+          <>
+            <dt className={styles.metadataKey}>Completed</dt>
+            <dd className={styles.metadataValue}>
+              {new Date(book.completionDate).toLocaleDateString()}
+            </dd>
+          </>
+        )}
         <dt className={styles.metadataKey}>ISBN</dt>
         <dd className={styles.metadataValue}>{book.isbn ?? "Not available"}</dd>
         <dt className={styles.metadataKey}>Publication Year</dt>
@@ -120,6 +132,14 @@ export function BookDetail({ bookId }: BookDetailProps) {
             {startingReading ? "Starting..." : "Start Reading"}
           </button>
         )}
+        {book.status === "READING" && (
+          <button
+            className={styles.markCompletedButton}
+            onClick={() => setShowMarkCompletedDialog(true)}
+          >
+            Mark as Completed
+          </button>
+        )}
         {showRemoveDialog ? (
           <RemoveBookDialog
             bookId={book.id}
@@ -133,6 +153,17 @@ export function BookDetail({ bookId }: BookDetailProps) {
           </button>
         )}
       </div>
+      {showMarkCompletedDialog && (
+        <MarkCompletedDialog
+          bookId={book.id}
+          readingStartDate={book.readingStartDate}
+          onCompleted={(data) => {
+            setBook(data as BookData);
+            setShowMarkCompletedDialog(false);
+          }}
+          onCancel={() => setShowMarkCompletedDialog(false)}
+        />
+      )}
       <Link href="/" className={styles.backLink}>Back to wishlist</Link>
     </div>
   );

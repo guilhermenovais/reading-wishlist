@@ -10,6 +10,7 @@ interface ImportBookProps {
   author: string;
   isbn?: string;
   publicationYear?: number;
+  coverImageUrl?: string;
 }
 
 interface ReconstituteBookProps {
@@ -20,6 +21,8 @@ interface ReconstituteBookProps {
   isbn: string | null;
   publicationYear: number | null;
   readingStartDate: Date | null;
+  completionDate: Date | null;
+  coverImageUrl: string | null;
   createdAt: Date;
 }
 
@@ -31,6 +34,8 @@ export class Book {
   readonly isbn: string | null;
   readonly publicationYear: number | null;
   readonly readingStartDate: Date | null;
+  readonly completionDate: Date | null;
+  readonly coverImageUrl: string | null;
   readonly createdAt?: Date;
 
   private constructor(props: {
@@ -41,6 +46,8 @@ export class Book {
     isbn: string | null;
     publicationYear: number | null;
     readingStartDate: Date | null;
+    completionDate: Date | null;
+    coverImageUrl: string | null;
     createdAt?: Date;
   }) {
     this.id = props.id;
@@ -50,6 +57,8 @@ export class Book {
     this.isbn = props.isbn;
     this.publicationYear = props.publicationYear;
     this.readingStartDate = props.readingStartDate;
+    this.completionDate = props.completionDate;
+    this.coverImageUrl = props.coverImageUrl;
     this.createdAt = props.createdAt;
   }
 
@@ -72,6 +81,8 @@ export class Book {
       isbn: null,
       publicationYear: null,
       readingStartDate: null,
+      completionDate: null,
+      coverImageUrl: null,
     });
   }
 
@@ -98,6 +109,8 @@ export class Book {
       isbn: props.isbn ?? null,
       publicationYear: props.publicationYear ?? null,
       readingStartDate: null,
+      completionDate: null,
+      coverImageUrl: props.coverImageUrl ?? null,
     });
   }
 
@@ -110,6 +123,8 @@ export class Book {
       isbn: props.isbn,
       publicationYear: props.publicationYear,
       readingStartDate: props.readingStartDate,
+      completionDate: props.completionDate,
+      coverImageUrl: props.coverImageUrl,
       createdAt: props.createdAt,
     });
   }
@@ -126,6 +141,43 @@ export class Book {
       isbn: this.isbn,
       publicationYear: this.publicationYear,
       readingStartDate: new Date(),
+      completionDate: null,
+      coverImageUrl: this.coverImageUrl,
+      createdAt: this.createdAt!,
+    });
+  }
+
+  markAsCompleted(completionDate: Date): Book {
+    if (this.status !== BookStatus.READING) {
+      throw new Error("Only reading books can be marked as completed");
+    }
+
+    const today = new Date();
+    today.setHours(23, 59, 59, 999);
+    if (completionDate.getTime() > today.getTime()) {
+      throw new Error("Completion date cannot be in the future");
+    }
+
+    if (this.readingStartDate) {
+      const completionDay = new Date(completionDate);
+      completionDay.setHours(0, 0, 0, 0);
+      const startDay = new Date(this.readingStartDate);
+      startDay.setHours(0, 0, 0, 0);
+      if (completionDay < startDay) {
+        throw new Error("Completion date cannot be before reading start date");
+      }
+    }
+
+    return Book.reconstitute({
+      id: this.id!,
+      title: this.title,
+      author: this.author,
+      status: BookStatus.COMPLETED,
+      isbn: this.isbn,
+      publicationYear: this.publicationYear,
+      readingStartDate: this.readingStartDate,
+      completionDate,
+      coverImageUrl: this.coverImageUrl,
       createdAt: this.createdAt!,
     });
   }
