@@ -19,7 +19,7 @@
 
 **Purpose**: Environment configuration for Google Books API integration
 
-- [ ] T001 Add GOOGLE_BOOKS_API_KEY to .env.example and .env configuration
+- [x] T001 Add GOOGLE_BOOKS_API_KEY to .env.example and .env configuration
 
 ---
 
@@ -29,8 +29,8 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T002 Add coverImageUrl field to SearchResult interface in src/modules/books/domain/book-search-provider.ts
-- [ ] T003 Update search service unit test fixtures with coverImageUrl in tests/unit/modules/books/application/search-service.test.ts
+- [x] T002 Add coverImageUrl field to SearchResult interface in src/modules/books/domain/book-search-provider.ts
+- [x] T003 Update search service unit test fixtures with coverImageUrl in tests/unit/modules/books/application/search-service.test.ts
 
 **Checkpoint**: Foundation ready - SearchResult interface extended, existing tests green with updated fixtures
 
@@ -46,13 +46,13 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T004 [P] [US1] Write integration tests for GoogleBooksSearchProvider (success, empty results, missing fields, API error, missing API key, HTTP-to-HTTPS cover URL rewrite) in tests/integration/modules/books/infrastructure/google-books-search-provider.test.ts
+- [x] T004 [P] [US1] Write integration tests for GoogleBooksSearchProvider (success, empty results, missing fields, API error, missing API key, HTTP-to-HTTPS cover URL rewrite) in tests/integration/modules/books/infrastructure/google-books-search-provider.test.ts
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] Implement GoogleBooksSearchProvider with Google Books API mapping in src/modules/books/infrastructure/google-books-search-provider.ts
-- [ ] T006 [US1] Wire GoogleBooksSearchProvider replacing OpenLibrarySearchProvider in src/app/api/search/route.ts
-- [ ] T007 [P] [US1] Update search page description text from Open Library to Google Books in src/app/search/page.tsx
+- [x] T005 [US1] Implement GoogleBooksSearchProvider with Google Books API mapping in src/modules/books/infrastructure/google-books-search-provider.ts
+- [x] T006 [US1] Wire GoogleBooksSearchProvider replacing OpenLibrarySearchProvider in src/app/api/search/route.ts
+- [x] T007 [P] [US1] Update search page description text from Open Library to Google Books in src/app/search/page.tsx
 
 **Checkpoint**: Search returns results from Google Books. Integration tests pass. Existing import flow still works.
 
@@ -68,7 +68,7 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T008 [US2] Update E2E tests for search-and-import flow with Google Books data (search, import, duplicate detection, missing fields) in tests/e2e/book-search.spec.ts
+- [x] T008 [US2] Update E2E tests for search-and-import flow with Google Books data (search, import, duplicate detection, missing fields) in tests/e2e/book-search.spec.ts
 
 ### Implementation for User Story 2
 
@@ -88,12 +88,12 @@ No new implementation code required. The import flow (POST /api/books, SearchSer
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T009 [US3] Add E2E test cases for cover image display (cover present, placeholder fallback) in tests/e2e/book-search.spec.ts
+- [x] T009 [US3] Add E2E test cases for cover image display (cover present, placeholder fallback) in tests/e2e/book-search.spec.ts
 
 ### Implementation for User Story 3
 
-- [ ] T010 [P] [US3] Add cover image and placeholder styles in src/modules/books/presentation/search-results.module.css
-- [ ] T011 [US3] Add cover thumbnail display with placeholder fallback in src/modules/books/presentation/search-results.tsx
+- [x] T010 [P] [US3] Add cover image and placeholder styles in src/modules/books/presentation/search-results.module.css
+- [x] T011 [US3] Add cover thumbnail display with placeholder fallback in src/modules/books/presentation/search-results.tsx
 
 **Checkpoint**: Search results show cover thumbnails when available and placeholders when not. E2E tests pass.
 
@@ -103,8 +103,8 @@ No new implementation code required. The import flow (POST /api/books, SearchSer
 
 **Purpose**: Final validation across all stories
 
-- [ ] T012 Run full test suite (unit, integration, E2E) and verify no regressions
-- [ ] T013 Run quickstart.md validation steps end-to-end
+- [x] T012 Run full test suite (unit, integration, E2E) and verify no regressions
+- [x] T013 Run quickstart.md validation steps end-to-end
 
 ---
 
