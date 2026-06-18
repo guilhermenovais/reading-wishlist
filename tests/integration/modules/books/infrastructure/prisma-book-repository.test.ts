@@ -174,6 +174,44 @@ describe("PrismaBookRepository", () => {
     });
   });
 
+  describe("coverImageUrl persistence", () => {
+    it("persists a book with coverImageUrl", async () => {
+      const book = Book.createFromImport({
+        title: "Clean Code",
+        author: "Robert C. Martin",
+        isbn: "9780132350884",
+        publicationYear: 2008,
+        coverImageUrl: "https://books.google.com/cover.jpg",
+      });
+      const saved = await repository.save(book);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.coverImageUrl).toBe("https://books.google.com/cover.jpg");
+    });
+
+    it("persists a book without coverImageUrl as null", async () => {
+      const book = Book.create({ title: "My Book", author: "Author" });
+      const saved = await repository.save(book);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.coverImageUrl).toBeNull();
+    });
+
+    it("persists updated coverImageUrl", async () => {
+      const book = Book.create({ title: "My Book", author: "Author" });
+      const saved = await repository.save(book);
+
+      const withCover = saved.withCoverImage("/uploads/covers/1-123456.jpg");
+      await repository.update(withCover);
+
+      const found = await repository.findById(saved.id!);
+
+      expect(found!.coverImageUrl).toBe("/uploads/covers/1-123456.jpg");
+    });
+  });
+
   describe("persist and retrieve isbn/publicationYear", () => {
     it("persists and retrieves isbn and publicationYear", async () => {
       const book = Book.createFromImport({

@@ -14,6 +14,7 @@ export class PrismaBookRepository implements BookRepository {
     isbn: string | null;
     publicationYear: number | null;
     readingStartDate: Date | null;
+    coverImageUrl: string | null;
     createdAt: Date;
   }): Book {
     return Book.reconstitute({
@@ -24,6 +25,7 @@ export class PrismaBookRepository implements BookRepository {
       isbn: record.isbn,
       publicationYear: record.publicationYear,
       readingStartDate: record.readingStartDate,
+      coverImageUrl: record.coverImageUrl,
       createdAt: record.createdAt,
     });
   }
@@ -36,6 +38,7 @@ export class PrismaBookRepository implements BookRepository {
         status: book.status,
         isbn: book.isbn,
         publicationYear: book.publicationYear,
+        coverImageUrl: book.coverImageUrl,
       },
     });
 
@@ -52,6 +55,7 @@ export class PrismaBookRepository implements BookRepository {
         isbn: book.isbn,
         publicationYear: book.publicationYear,
         readingStartDate: book.readingStartDate,
+        coverImageUrl: book.coverImageUrl,
       },
     });
 

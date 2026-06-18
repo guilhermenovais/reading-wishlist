@@ -10,6 +10,7 @@ interface ImportBookProps {
   author: string;
   isbn?: string;
   publicationYear?: number;
+  coverImageUrl?: string;
 }
 
 interface ReconstituteBookProps {
@@ -20,6 +21,7 @@ interface ReconstituteBookProps {
   isbn: string | null;
   publicationYear: number | null;
   readingStartDate: Date | null;
+  coverImageUrl: string | null;
   createdAt: Date;
 }
 
@@ -31,6 +33,7 @@ export class Book {
   readonly isbn: string | null;
   readonly publicationYear: number | null;
   readonly readingStartDate: Date | null;
+  readonly coverImageUrl: string | null;
   readonly createdAt?: Date;
 
   private constructor(props: {
@@ -41,6 +44,7 @@ export class Book {
     isbn: string | null;
     publicationYear: number | null;
     readingStartDate: Date | null;
+    coverImageUrl: string | null;
     createdAt?: Date;
   }) {
     this.id = props.id;
@@ -50,6 +54,7 @@ export class Book {
     this.isbn = props.isbn;
     this.publicationYear = props.publicationYear;
     this.readingStartDate = props.readingStartDate;
+    this.coverImageUrl = props.coverImageUrl;
     this.createdAt = props.createdAt;
   }
 
@@ -72,6 +77,7 @@ export class Book {
       isbn: null,
       publicationYear: null,
       readingStartDate: null,
+      coverImageUrl: null,
     });
   }
 
@@ -98,6 +104,7 @@ export class Book {
       isbn: props.isbn ?? null,
       publicationYear: props.publicationYear ?? null,
       readingStartDate: null,
+      coverImageUrl: props.coverImageUrl ?? null,
     });
   }
 
@@ -110,6 +117,7 @@ export class Book {
       isbn: props.isbn,
       publicationYear: props.publicationYear,
       readingStartDate: props.readingStartDate,
+      coverImageUrl: props.coverImageUrl,
       createdAt: props.createdAt,
     });
   }
@@ -126,6 +134,21 @@ export class Book {
       isbn: this.isbn,
       publicationYear: this.publicationYear,
       readingStartDate: new Date(),
+      coverImageUrl: this.coverImageUrl,
+      createdAt: this.createdAt!,
+    });
+  }
+
+  withCoverImage(coverImageUrl: string): Book {
+    return Book.reconstitute({
+      id: this.id!,
+      title: this.title,
+      author: this.author,
+      status: this.status,
+      isbn: this.isbn,
+      publicationYear: this.publicationYear,
+      readingStartDate: this.readingStartDate,
+      coverImageUrl,
       createdAt: this.createdAt!,
     });
   }
