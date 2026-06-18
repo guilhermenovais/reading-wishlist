@@ -17,8 +17,8 @@
 
 **Purpose**: Database migration and filesystem setup for cover image support
 
-- [ ] T001 Add coverImageUrl String? field to Book model in prisma/schema.prisma and run prisma migrate dev to generate migration
-- [ ] T002 [P] Create public/uploads/covers/ directory and add uploads/ to .gitignore
+- [X] T001 Add coverImageUrl String? field to Book model in prisma/schema.prisma and run prisma migrate dev to generate migration
+- [X] T002 [P] Create public/uploads/covers/ directory and add uploads/ to .gitignore
 
 ---
 
@@ -30,13 +30,13 @@
 
 ### Tests (write first, verify they fail)
 
-- [ ] T003 [P] Add unit tests for Book entity cover image support (reconstitute with coverImageUrl, withCoverImage method, import with coverImageUrl) in tests/unit/modules/books/domain/book.test.ts
-- [ ] T004 [P] Add integration tests for PrismaBookRepository coverImageUrl persistence (save with cover, save without cover, update cover) in tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts
+- [X] T003 [P] Add unit tests for Book entity cover image support (reconstitute with coverImageUrl, withCoverImage method, import with coverImageUrl) in tests/unit/modules/books/domain/book.test.ts
+- [X] T004 [P] Add integration tests for PrismaBookRepository coverImageUrl persistence (save with cover, save without cover, update cover) in tests/integration/modules/books/infrastructure/prisma-book-repository.test.ts
 
 ### Implementation
 
-- [ ] T005 Extend Book domain entity with coverImageUrl field: update ImportBookProps and ReconstituteBookProps, add withCoverImage(coverImageUrl: string): Book method in src/modules/books/domain/book.ts
-- [ ] T006 Update PrismaBookRepository to map coverImageUrl in toDomain and toPersistence methods in src/modules/books/infrastructure/prisma-book-repository.ts
+- [X] T005 Extend Book domain entity with coverImageUrl field: update ImportBookProps and ReconstituteBookProps, add withCoverImage(coverImageUrl: string): Book method in src/modules/books/domain/book.ts
+- [X] T006 Update PrismaBookRepository to map coverImageUrl in toDomain and toPersistence methods in src/modules/books/infrastructure/prisma-book-repository.ts
 
 **Checkpoint**: Book entity and repository support coverImageUrl end-to-end. All foundational tests pass.
 
@@ -50,9 +50,9 @@
 
 ### Implementation for User Story 1
 
-- [ ] T007 [P] [US1] Update book-list component to render cover image via <img> or CSS placeholder fallback in src/modules/books/presentation/book-list.tsx and src/modules/books/presentation/book-list.module.css
-- [ ] T008 [P] [US1] Update book-detail component to render cover image via <img> or CSS placeholder fallback in src/modules/books/presentation/book-detail.tsx and src/modules/books/presentation/book-detail.module.css
-- [ ] T009 [US1] Update book detail page to pass coverImageUrl to book-detail component in src/app/books/[id]/page.tsx
+- [X] T007 [P] [US1] Update book-list component to render cover image via <img> or CSS placeholder fallback in src/modules/books/presentation/book-list.tsx and src/modules/books/presentation/book-list.module.css
+- [X] T008 [P] [US1] Update book-detail component to render cover image via <img> or CSS placeholder fallback in src/modules/books/presentation/book-detail.tsx and src/modules/books/presentation/book-detail.module.css
+- [X] T009 [US1] Update book detail page to pass coverImageUrl to book-detail component in src/app/books/[id]/page.tsx
 
 **Checkpoint**: Wishlist and detail pages display covers or placeholders. User Story 1 is fully functional and testable independently.
 
@@ -66,16 +66,16 @@
 
 ### Tests for User Story 2 (write first, verify they fail)
 
-- [ ] T010 [P] [US2] Add unit tests for BookService uploadCover method (valid upload, invalid MIME type, file too large, invalid magic bytes) in tests/unit/modules/books/application/book-service.test.ts
-- [ ] T011 [P] [US2] Create integration tests for LocalFileCoverImageStorage (save file, delete file, correct path naming) in tests/integration/modules/books/infrastructure/local-file-cover-image-storage.test.ts
+- [X] T010 [P] [US2] Add unit tests for BookService uploadCover method (valid upload, invalid MIME type, file too large, invalid magic bytes) in tests/unit/modules/books/application/book-service.test.ts
+- [X] T011 [P] [US2] Create integration tests for LocalFileCoverImageStorage (save file, delete file, correct path naming) in tests/integration/modules/books/infrastructure/local-file-cover-image-storage.test.ts
 
 ### Implementation for User Story 2
 
-- [ ] T012 [P] [US2] Create CoverImageStorage interface with save and delete methods in src/modules/books/domain/cover-image-storage.ts
-- [ ] T013 [US2] Implement LocalFileCoverImageStorage (save to public/uploads/covers/{bookId}-{timestamp}.{ext}, delete old file) in src/modules/books/infrastructure/local-file-cover-image-storage.ts
-- [ ] T014 [US2] Add uploadCover method to BookService with validation (MIME type check, 5 MB size limit, magic bytes verification) in src/modules/books/application/book-service.ts
-- [ ] T015 [US2] Create POST /api/books/[id]/cover route handling multipart/form-data with error responses per upload-api.md contract in src/app/api/books/[id]/cover/route.ts
-- [ ] T016 [US2] Add file upload input with accept attribute and client-side validation to add-book-form in src/modules/books/presentation/add-book-form.tsx and src/modules/books/presentation/add-book-form.module.css
+- [X] T012 [P] [US2] Create CoverImageStorage interface with save and delete methods in src/modules/books/domain/cover-image-storage.ts
+- [X] T013 [US2] Implement LocalFileCoverImageStorage (save to public/uploads/covers/{bookId}-{timestamp}.{ext}, delete old file) in src/modules/books/infrastructure/local-file-cover-image-storage.ts
+- [X] T014 [US2] Add uploadCover method to BookService with validation (MIME type check, 5 MB size limit, magic bytes verification) in src/modules/books/application/book-service.ts
+- [X] T015 [US2] Create POST /api/books/[id]/cover route handling multipart/form-data with error responses per upload-api.md contract in src/app/api/books/[id]/cover/route.ts
+- [X] T016 [US2] Add file upload input with accept attribute and client-side validation to add-book-form in src/modules/books/presentation/add-book-form.tsx and src/modules/books/presentation/add-book-form.module.css
 
 **Checkpoint**: Users can upload covers when adding books manually. All upload validation works. User Stories 1 AND 2 are both independently functional.
 
@@ -89,13 +89,13 @@
 
 ### Tests for User Story 3 (write first, verify they fail)
 
-- [ ] T017 [US3] Add unit tests for BookService import flow with coverImageUrl (import with cover URL, import without cover URL) in tests/unit/modules/books/application/book-service.test.ts
+- [X] T017 [US3] Add unit tests for BookService import flow with coverImageUrl (import with cover URL, import without cover URL) in tests/unit/modules/books/application/book-service.test.ts
 
 ### Implementation for User Story 3
 
-- [ ] T018 [US3] Update BookService addBook/importBook to accept and persist coverImageUrl parameter in src/modules/books/application/book-service.ts
-- [ ] T019 [P] [US3] Update POST /api/books route to parse coverImageUrl from request body and pass to BookService per books-api.md contract in src/app/api/books/route.ts
-- [ ] T020 [P] [US3] Update search-results component to include coverImageUrl when calling import API in src/modules/books/presentation/search-results.tsx
+- [X] T018 [US3] Update BookService addBook/importBook to accept and persist coverImageUrl parameter in src/modules/books/application/book-service.ts
+- [X] T019 [P] [US3] Update POST /api/books route to parse coverImageUrl from request body and pass to BookService per books-api.md contract in src/app/api/books/route.ts
+- [X] T020 [P] [US3] Update search-results component to include coverImageUrl when calling import API in src/modules/books/presentation/search-results.tsx
 
 **Checkpoint**: All three user stories are independently functional. Import, upload, and display flows all work.
 
@@ -105,8 +105,8 @@
 
 **Purpose**: End-to-end validation across all stories
 
-- [ ] T021 [P] Add E2E tests covering cover display on wishlist, manual upload flow, and search import flow in tests/e2e/books-wishlist.spec.ts
-- [ ] T022 Run quickstart.md validation steps: migrate, create uploads dir, verify search import cover, manual upload cover, and placeholder display
+- [X] T021 [P] Add E2E tests covering cover display on wishlist, manual upload flow, and search import flow in tests/e2e/books-wishlist.spec.ts
+- [X] T022 Run quickstart.md validation steps: migrate, create uploads dir, verify search import cover, manual upload cover, and placeholder display
 
 ---
 
