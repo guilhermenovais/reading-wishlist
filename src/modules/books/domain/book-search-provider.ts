@@ -3,6 +3,7 @@ export interface SearchResult {
   author: string;
   publicationYear: number | undefined;
   isbn: string | undefined;
+  coverImageUrl: string | undefined;
 }
 
 export interface BookSearchProvider {

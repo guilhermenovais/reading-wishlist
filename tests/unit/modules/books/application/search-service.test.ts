@@ -32,8 +32,8 @@ beforeEach(() => {
 describe("SearchService.searchByTitle", () => {
   it("returns results from the search provider", async () => {
     provider.setResults([
-      { title: "Clean Code", author: "Robert C. Martin", publicationYear: 2008, isbn: "9780132350884" },
-      { title: "Clean Architecture", author: "Robert C. Martin", publicationYear: 2017, isbn: "9780134494166" },
+      { title: "Clean Code", author: "Robert C. Martin", publicationYear: 2008, isbn: "9780132350884", coverImageUrl: "https://books.google.com/books?id=abc" },
+      { title: "Clean Architecture", author: "Robert C. Martin", publicationYear: 2017, isbn: "9780134494166", coverImageUrl: undefined },
     ]);
 
     const results = await service.searchByTitle("Clean");

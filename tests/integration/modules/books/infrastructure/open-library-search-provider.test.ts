@@ -35,6 +35,7 @@ describe("OpenLibrarySearchProvider", () => {
         author: "Robert C. Martin",
         publicationYear: 2008,
         isbn: "9780132350884",
+        coverImageUrl: undefined,
       });
     });
 
@@ -83,6 +84,7 @@ describe("OpenLibrarySearchProvider", () => {
         author: "",
         publicationYear: undefined,
         isbn: undefined,
+        coverImageUrl: undefined,
       });
     });
 

@@ -37,6 +37,7 @@ export class OpenLibrarySearchProvider implements BookSearchProvider {
       author: doc.author_name ? doc.author_name.join(", ") : "",
       publicationYear: doc.first_publish_year,
       isbn: selectIsbn(doc.isbn),
+      coverImageUrl: undefined,
     }));
   }
 }
