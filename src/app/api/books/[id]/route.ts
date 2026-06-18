@@ -30,6 +30,7 @@ export async function GET(
       isbn: book.isbn,
       publicationYear: book.publicationYear,
       readingStartDate: book.readingStartDate,
+      coverImageUrl: book.coverImageUrl,
       createdAt: book.createdAt,
     });
   } catch {

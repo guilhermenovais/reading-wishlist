@@ -12,6 +12,7 @@ interface BookSummary {
   isbn: string | null;
   publicationYear: number | null;
   readingStartDate: string | null;
+  coverImageUrl: string | null;
 }
 
 export default function ReadingPage() {
@@ -49,6 +50,15 @@ export default function ReadingPage() {
           {books.map((book) => (
             <li key={book.id} className={styles.card}>
               <div className={styles.cardContent}>
+                {book.coverImageUrl ? (
+                  <img
+                    src={book.coverImageUrl}
+                    alt={`Cover of ${book.title}`}
+                    className={styles.coverImage}
+                  />
+                ) : (
+                  <div className={styles.coverPlaceholder}>No cover</div>
+                )}
                 <div>
                   <Link href={`/books/${book.id}`} className={styles.bookTitle}>
                     {book.title}

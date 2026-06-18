@@ -18,6 +18,27 @@
   gap: var(--space-3);
 }
 
+.coverImage {
+  width: 48px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.coverPlaceholder {
+  width: 48px;
+  height: 64px;
+  background-color: var(--color-border);
+  border-radius: 2px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7em;
+  color: var(--color-muted);
+}
+
 .bookTitle {
   font-weight: 700;
   color: var(--color-primary);
