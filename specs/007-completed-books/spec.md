@@ -9,7 +9,7 @@
 
 ### User Story 1 - Mark Book as Completed (Priority: P1)
 
-A user who has finished reading a book navigates to the book's detail page and marks it as completed. The system prompts them to select a completion date, defaulting to today's date. After confirming, the book moves from "Reading" status to "Completed" status with the selected date recorded.
+A user who has finished reading a book navigates to the book's detail page and marks it as completed. The system opens a modal dialog prompting them to select a completion date, defaulting to today's date. After confirming, the book moves from "Reading" status to "Completed" status with the selected date recorded. This is a one-way transition.
 
 **Why this priority**: This is the core action of the feature — without the ability to mark books as completed, no other part of the feature functions.
 
@@ -34,7 +34,7 @@ A user wants to see all books they have finished reading. They navigate to the "
 
 **Acceptance Scenarios**:
 
-1. **Given** there are books with status "COMPLETED", **When** the user navigates to the Completed page, **Then** all completed books are displayed with title, author, and completion date.
+1. **Given** there are books with status "COMPLETED", **When** the user navigates to the Completed page, **Then** all completed books are displayed with cover image thumbnail, title, author, and completion date.
 2. **Given** there are no completed books, **When** the user navigates to the Completed page, **Then** a message indicates no books have been completed yet.
 3. **Given** the Completed page is loaded, **When** the user clicks on a book title, **Then** they are navigated to the book's detail page.
 
@@ -57,9 +57,19 @@ A user viewing a completed book's detail page can see when they finished reading
 
 ### Edge Cases
 
-- What happens when the user selects a completion date in the future? The system should not allow future dates — the latest selectable date is today.
-- What happens when the user selects a completion date before the reading start date? The system should not allow a completion date earlier than the reading start date.
+- What happens when the user selects a completion date in the future? The date picker constrains the maximum selectable date to today — future dates are disabled.
+- What happens when the user selects a completion date before the reading start date? The date picker constrains the minimum selectable date to the reading start date — earlier dates are disabled.
 - What happens when the user cancels the completion action? The book remains in "Reading" status with no changes.
+
+## Clarifications
+
+### Session 2026-06-18
+
+- Q: Can a user revert a completed book back to "Reading" status? → A: No — marking as completed is a one-way transition. Once completed, the book stays completed permanently.
+- Q: How should completed books be sorted on the Completed page? → A: By completion date, newest first (reverse chronological).
+- Q: Should the Completed page include cover image thumbnails? → A: Yes, show cover image thumbnails alongside title, author, and completion date.
+- Q: How should date validation errors be communicated for invalid completion dates? → A: Constrain the date picker — disable future dates and dates before reading start date so they cannot be selected.
+- Q: What UI element should be used for the "Mark as Completed" flow? → A: Modal dialog with date picker and Confirm/Cancel buttons.
 
 ## Requirements *(mandatory)*
 
@@ -67,12 +77,12 @@ A user viewing a completed book's detail page can see when they finished reading
 
 - **FR-001**: System MUST add a "COMPLETED" status to the existing book status options (currently "WISHLIST" and "READING").
 - **FR-002**: System MUST provide a "Mark as Completed" action on the book detail page for books with "READING" status only.
-- **FR-003**: System MUST present a date picker when marking a book as completed, defaulting to the current date.
-- **FR-004**: System MUST validate that the completion date is not in the future.
-- **FR-005**: System MUST validate that the completion date is not earlier than the book's reading start date.
+- **FR-003**: System MUST present a modal dialog with a date picker when marking a book as completed, defaulting to the current date, with Confirm and Cancel buttons.
+- **FR-004**: System MUST constrain the date picker so that future dates are not selectable (max date = today).
+- **FR-005**: System MUST constrain the date picker so that dates earlier than the book's reading start date are not selectable (min date = reading start date).
 - **FR-006**: System MUST store the completion date when a book is marked as completed.
 - **FR-007**: System MUST provide a "Completed" page accessible from the main navigation that lists all books with "COMPLETED" status.
-- **FR-008**: Each book on the Completed page MUST display the title, author, and completion date.
+- **FR-008**: Each book on the Completed page MUST display the cover image thumbnail, title, author, and completion date, sorted by completion date descending (newest first).
 - **FR-009**: Each book on the Completed page MUST link to its detail page.
 - **FR-010**: The book detail page MUST display the completion date for books with "COMPLETED" status.
 - **FR-011**: The "Completed" navigation link MUST appear in the main navigation alongside "Wishlist", "Reading", and "Search".
@@ -98,3 +108,4 @@ A user viewing a completed book's detail page can see when they finished reading
 - The existing book detail page pattern (used for "Start Reading") will be followed for the "Mark as Completed" interaction.
 - The Completed page follows the same layout and styling patterns as the existing Reading page.
 - The navigation order will be: Wishlist, Reading, Completed, Search.
+- Marking a book as completed is a one-way transition — there is no path from "COMPLETED" back to "READING".
