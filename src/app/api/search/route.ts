@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SearchService } from "@/modules/books/application/search-service";
-import { OpenLibrarySearchProvider } from "@/modules/books/infrastructure/open-library-search-provider";
+import { GoogleBooksSearchProvider } from "@/modules/books/infrastructure/google-books-search-provider";
 
 function getSearchService() {
-  return new SearchService(new OpenLibrarySearchProvider());
+  return new SearchService(new GoogleBooksSearchProvider());
 }
 
 export async function GET(request: NextRequest) {

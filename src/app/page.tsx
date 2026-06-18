@@ -16,7 +16,7 @@ export default function WishlistPage() {
     <>
       <h1>Reading Wishlist</h1>
       <p>
-        <Link href="/search">Search &amp; Import Books from Open Library</Link>
+        <Link href="/search">Search &amp; Import Books from Google Books</Link>
       </p>
       <AddBookForm onBookAdded={refresh} />
       <BookList refreshKey={refreshKey} onBookRemoved={refresh} />

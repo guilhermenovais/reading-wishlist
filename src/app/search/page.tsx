@@ -10,6 +10,7 @@ interface SearchResultItem {
   author: string;
   publicationYear: number | null;
   isbn: string | null;
+  coverImageUrl: string | null;
 }
 
 export default function SearchPage() {
@@ -49,8 +50,7 @@ export default function SearchPage() {
     <>
       <h1>Search Books</h1>
       <p>
-        Search for books using the Open Library database and import them to your
-        wishlist.
+        Search for books using Google Books and import them to your wishlist.
       </p>
       <SearchForm onSearch={handleSearch} isLoading={loading} />
       <SearchResults results={results} error={error} hasSearched={hasSearched} />
