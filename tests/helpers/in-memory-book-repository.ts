@@ -18,6 +18,8 @@ export class InMemoryBookRepository implements BookRepository {
       completionDate: book.completionDate,
       coverImageUrl: book.coverImageUrl,
       createdAt: new Date(),
+      rating: book.rating,
+      notes: book.notes,
     });
     this.books.push(saved);
     return saved;
