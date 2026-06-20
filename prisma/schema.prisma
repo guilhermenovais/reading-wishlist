@@ -23,5 +23,7 @@ model Book {
   readingStartDate DateTime?
   completionDate   DateTime?
   coverImageUrl    String?
+  rating    Int?
+  notes     String?
   createdAt        DateTime   @default(now())
 }
