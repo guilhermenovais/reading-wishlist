@@ -35,7 +35,6 @@ jobs:
       run: npm run test:coverage
 
     - name: Upload para o Codecov
-      # O envio para o Codecov só precisa ser feito uma vez (no Linux)
       if: matrix.os == 'ubuntu-latest'
       uses: codecov/codecov-action@v4
       with:
