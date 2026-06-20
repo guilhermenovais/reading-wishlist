@@ -24,6 +24,8 @@ interface ReconstituteBookProps {
   completionDate: Date | null;
   coverImageUrl: string | null;
   createdAt: Date;
+  rating: number | null;
+  notes: string | null;
 }
 
 export class Book {
@@ -37,6 +39,9 @@ export class Book {
   readonly completionDate: Date | null;
   readonly coverImageUrl: string | null;
   readonly createdAt?: Date;
+  // NOVOS CAMPOS AQUI
+  readonly rating: number | null;
+  readonly notes: string | null;
 
   private constructor(props: {
     id?: number;
@@ -49,6 +54,8 @@ export class Book {
     completionDate: Date | null;
     coverImageUrl: string | null;
     createdAt?: Date;
+    rating: number | null;
+    notes: string | null;
   }) {
     this.id = props.id;
     this.title = props.title;
@@ -60,6 +67,8 @@ export class Book {
     this.completionDate = props.completionDate;
     this.coverImageUrl = props.coverImageUrl;
     this.createdAt = props.createdAt;
+    this.rating = props.rating;
+    this.notes = props.notes;
   }
 
   static create(props: CreateBookProps): Book {
@@ -83,6 +92,8 @@ export class Book {
       readingStartDate: null,
       completionDate: null,
       coverImageUrl: null,
+      rating: null, 
+      notes: null,  
     });
   }
 
@@ -111,6 +122,8 @@ export class Book {
       readingStartDate: null,
       completionDate: null,
       coverImageUrl: props.coverImageUrl ?? null,
+      rating: null, 
+      notes: null,  
     });
   }
 
@@ -126,6 +139,42 @@ export class Book {
       completionDate: props.completionDate,
       coverImageUrl: props.coverImageUrl,
       createdAt: props.createdAt,
+      rating: props.rating, 
+      notes: props.notes,   
+    });
+  }
+
+  updateInfo(props: {
+    status?: BookStatus;
+    readingStartDate?: Date | null;
+    completionDate?: Date | null;
+    rating?: number | null;
+    notes?: string | null;
+  }): Book {
+    const newStatus = props.status !== undefined ? props.status : this.status;
+    const newRating = props.rating !== undefined ? props.rating : this.rating;
+
+    if (newRating !== null && (newRating < 1 || newRating > 5)) {
+      throw new Error("Rating must be between 1 and 5");
+    }
+
+    if (newRating !== null && newStatus !== BookStatus.COMPLETED) {
+      throw new Error("Only completed books can be rated");
+    }
+
+    return Book.reconstitute({
+      id: this.id!,
+      title: this.title,
+      author: this.author,
+      status: newStatus,
+      isbn: this.isbn,
+      publicationYear: this.publicationYear,
+      readingStartDate: props.readingStartDate !== undefined ? props.readingStartDate : this.readingStartDate,
+      completionDate: props.completionDate !== undefined ? props.completionDate : this.completionDate,
+      coverImageUrl: this.coverImageUrl,
+      createdAt: this.createdAt!,
+      rating: newRating,
+      notes: props.notes !== undefined ? props.notes : this.notes,
     });
   }
 
@@ -144,6 +193,8 @@ export class Book {
       completionDate: null,
       coverImageUrl: this.coverImageUrl,
       createdAt: this.createdAt!,
+      rating: this.rating, 
+      notes: this.notes,  
     });
   }
 
@@ -179,6 +230,8 @@ export class Book {
       completionDate,
       coverImageUrl: this.coverImageUrl,
       createdAt: this.createdAt!,
+      rating: this.rating, 
+      notes: this.notes,   
     });
   }
 
@@ -194,6 +247,8 @@ export class Book {
       completionDate: this.completionDate,
       coverImageUrl,
       createdAt: this.createdAt!,
+      rating: this.rating, 
+      notes: this.notes,   
     });
   }
 }
