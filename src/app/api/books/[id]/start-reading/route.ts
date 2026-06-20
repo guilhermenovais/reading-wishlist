@@ -14,6 +14,8 @@ export async function PATCH(
   const { id } = await params;
   const bookId = Number(id);
 
+
+
   if (isNaN(bookId)) {
     return NextResponse.json({ error: "Invalid book ID" }, { status: 400 });
   }
@@ -21,6 +23,8 @@ export async function PATCH(
   try {
     const service = getBookService();
     const book = await service.startReading(bookId);
+    
+
 
     return NextResponse.json({
       id: book.id,
@@ -33,9 +37,14 @@ export async function PATCH(
       completionDate: book.completionDate,
       coverImageUrl: book.coverImageUrl,
       createdAt: book.createdAt,
+      rating: book.rating,
+      notes: book.notes,
     });
   } catch (error) {
+
+    
     const message = error instanceof Error ? error.message : "Internal server error";
+    
     if (message === "Book not found") {
       return NextResponse.json({ error: message }, { status: 404 });
     }

@@ -33,9 +33,45 @@ export async function GET(
       completionDate: book.completionDate,
       coverImageUrl: book.coverImageUrl,
       createdAt: book.createdAt,
+      // NOVOS CAMPOS ADICIONADOS AQUI:
+      rating: book.rating,
+      notes: book.notes,
     });
   } catch {
     return NextResponse.json({ error: "Book not found" }, { status: 404 });
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const bookId = Number(id);
+
+  if (isNaN(bookId)) {
+    return NextResponse.json({ error: "Invalid book ID" }, { status: 400 });
+  }
+
+  try {
+    const body = await request.json();
+    
+    const { status, readingStartDate, completionDate, rating, notes } = body;
+
+    const service = getBookService();
+    
+    const updatedBook = await service.updateBook(bookId, {
+      status,
+      readingStartDate,
+      completionDate,
+      rating,
+      notes,
+    });
+
+    return NextResponse.json(updatedBook);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Error updating book";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
