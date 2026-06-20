@@ -16,6 +16,14 @@ interface ImportBookInput {
   coverImageUrl?: string;
 }
 
+interface UpdateBookInput {
+  status?: BookStatus;
+  readingStartDate?: Date | null;
+  completionDate?: Date | null;
+  rating?: number | null;
+  notes?: string | null;
+}
+
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
@@ -52,6 +60,23 @@ export class BookService {
       coverImageUrl: input.coverImageUrl,
     });
     return this.bookRepository.save(book);
+  }
+
+  async updateBook(id: number, input: UpdateBookInput): Promise<Book> {
+    const book = await this.bookRepository.findById(id);
+    if (!book) {
+      throw new Error("Book not found");
+    }
+
+    const updated = book.updateInfo({
+      status: input.status,
+      readingStartDate: input.readingStartDate,
+      completionDate: input.completionDate,
+      rating: input.rating,
+      notes: input.notes,
+    });
+
+    return this.bookRepository.update(updated);
   }
 
   async uploadCover(bookId: number, fileBuffer: Buffer, mimeType: string): Promise<Book> {
