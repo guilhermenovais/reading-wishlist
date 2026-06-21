@@ -204,16 +204,16 @@ export class Book {
     }
 
     const today = new Date();
-    today.setHours(23, 59, 59, 999);
+    today.setUTCHours(23, 59, 59, 999);
     if (completionDate.getTime() > today.getTime()) {
       throw new Error("Completion date cannot be in the future");
     }
 
     if (this.readingStartDate) {
       const completionDay = new Date(completionDate);
-      completionDay.setHours(0, 0, 0, 0);
+      completionDay.setUTCHours(0, 0, 0, 0);
       const startDay = new Date(this.readingStartDate);
-      startDay.setHours(0, 0, 0, 0);
+      startDay.setUTCHours(0, 0, 0, 0);
       if (completionDay < startDay) {
         throw new Error("Completion date cannot be before reading start date");
       }
