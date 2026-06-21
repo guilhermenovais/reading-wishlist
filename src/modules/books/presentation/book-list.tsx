@@ -97,7 +97,7 @@ export function BookList({ refreshKey, onBookRemoved }: BookListProps) {
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
         <div style={{ padding: '1rem', border: '1px solid #ccc', borderRadius: '8px', flex: 1 }}>
           <h3 style={{ margin: 0, fontSize: '1rem', color: '#666' }}>Total Books</h3>
           <p style={{ margin: '0.5rem 0 0', fontSize: '1.5rem', fontWeight: 'bold' }}>{stats.total}</p>
